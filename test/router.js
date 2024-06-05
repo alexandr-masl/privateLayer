@@ -1,11 +1,12 @@
 require('dotenv').config();
 const { ethers } = require("hardhat");
+const { BridgeIN_address } = require('./settings.json');
 
 // Load environment variables
 const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const chain1RpcUrl = "http://127.0.0.1:8545";
 const chain2RpcUrl = "http://127.0.0.1:8546";
-const chain1ContractAddress = "0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf";
+const chain1ContractAddress = BridgeIN_address;
 const chain2ContractAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
 
 if (!privateKey || !chain1RpcUrl || !chain2RpcUrl || !chain1ContractAddress || !chain2ContractAddress) {

@@ -3,10 +3,10 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-
-// Read the ABI from the artifacts directory
+const { BridgeIN_address } = require('./settings.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeIN.sol/BridgeIN.json')).abi;
 const wETH_address = '0xFC00000000000000000000000000000000000006';
+
 
 describe("Bridge Contract Deployment and Interaction", function () {
     let deployer, wETH, bridgeContract;
@@ -23,7 +23,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
         ], wETH_address);
 
         bridgeContract = new ethers.Contract(
-            "0x99bbA657f2BbC93c02D617f8bA121cB8Fc104Acf", 
+            BridgeIN_address, 
             bridgeAbi, 
             deployer
         );
@@ -43,6 +43,9 @@ describe("Bridge Contract Deployment and Interaction", function () {
     it("should approve wETH for deposit to Bridge", async function () {
         const amountToDeposit = ethers.parseUnits('3', 18);
         const handlerAddress = await bridgeContract.erc20Handler();
+
+        console.log(colors.white("::::::::::: handlerAddress:"), handlerAddress)
+
 
         const approveTx = await wETH.connect(deployer).approve(handlerAddress, amountToDeposit);
         await approveTx.wait();

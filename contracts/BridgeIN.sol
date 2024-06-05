@@ -84,9 +84,7 @@ contract BridgeIN {
         }
         proposals[withdrawNonce].validationsNonce++;
 
-        console.log("================ Current validationsNonce:", proposals[withdrawNonce].validationsNonce);
-
-        if (proposals[withdrawNonce].validationsNonce == validatorstNonce ){
+        if (proposals[withdrawNonce].validationsNonce >= validatorstNonce ){
 
             proposals[withdrawNonce].executed = true;
 
@@ -102,6 +100,7 @@ contract BridgeIN {
     }
 
     function setValidator(address _validator) external onlyOwner {
+        validatorstNonce++;
         validators[_validator] = true;
     }
 

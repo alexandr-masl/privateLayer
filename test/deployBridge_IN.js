@@ -2,7 +2,7 @@ require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const colors = require('colors');
-
+const { Validator_1 } = require('./settings.json');
 
 describe("Bridge Contract Deployment and Interaction", function () {
     let deployer, bridge, ercHandler;
@@ -42,6 +42,19 @@ describe("Bridge Contract Deployment and Interaction", function () {
         const setToken = await bridge.connect(deployer).setToken(wETH_address, false, true);
         const setTokenTxReceipt = await setToken.wait();
         console.log(colors.white(`:::::::: setTokenTxReceipt:`));
-        console.log(setTokenTxReceipt);
+        // console.log(setTokenTxReceipt);
     });
+
+    it("should set Validator in Bridge", async function () {
+
+        const validator= new ethers.Wallet(Validator_1);
+
+        console.log(colors.white(`:::::::: Validator 1 address: ${validator.address}`));
+
+        const setValidator = await bridge.connect(deployer).setValidator(validator.address);
+        const setValidatorTxReceipt = await setValidator.wait();
+        console.log(colors.white(`:::::::: setValidatorTxReceipt:`));
+        // console.log(setValidatorTxReceipt);
+    });
+
 });
