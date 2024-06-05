@@ -1,0 +1,11 @@
+SEPOLIA
+npx hardhat node --fork https://eth-sepolia.g.alchemy.com/v2/xwmmAIwYjQjD_nPJYtNw2QqIRZJj1NGb
+
+FRAXTAL
+npx hardhat node --fork https://rpc.frax.com
+
+npx hardhat test test/test.js  --network localhost
+
+npx hardhat node --port 8546
+
+

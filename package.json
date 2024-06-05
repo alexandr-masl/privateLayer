@@ -1,0 +1,36 @@
+{
+  "name": "layer3dev",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
+    "@nomicfoundation/hardhat-ethers": "^3.0.6",
+    "@nomicfoundation/hardhat-ignition": "^0.15.4",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.4",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.7",
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/contracts": "^5.0.2",
+    "@openzeppelin/hardhat-upgrades": "^3.1.0",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/sinon-chai": "^3.2.3",
+    "chai": "4",
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^6.12.2",
+    "hardhat": "^2.22.5",
+    "hardhat-gas-reporter": "^2.2.0",
+    "solidity-coverage": "^0.8.12",
+    "typechain": "^8.3.2"
+  },
+  "dependencies": {
+    "@axelar-network/axelarjs-sdk": "^0.16.1",
+    "@buildwithsygma/sygma-sdk-core": "^2.10.0",
+    "fs": "^0.0.1-security"
+  }
+}
