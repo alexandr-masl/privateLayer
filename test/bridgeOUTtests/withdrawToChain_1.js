@@ -1,9 +1,8 @@
 require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
-const provider = new ethers.JsonRpcProvider();
 const colors = require('colors');
-const bridgeOutAbi = require('./abi/bridgeOutAbi.json');
+const bridgeOutAbi = require('../abi/bridgeOutAbi.json');
 
 
 describe("Bridge Contract Deployment and Interaction", function () {

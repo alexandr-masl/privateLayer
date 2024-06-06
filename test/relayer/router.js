@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { ethers } = require("hardhat");
-const { BridgeIN_address } = require('./settings.json');
+const { BridgeIN_address } = require('../settings.json');
 
 // Load environment variables
 const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";

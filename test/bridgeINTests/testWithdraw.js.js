@@ -3,7 +3,7 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-const { BridgeIN_address, Validator_1 } = require('./settings.json');
+const { BridgeIN_address, Validator_1 } = require('../settings.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeIN.sol/BridgeIN.json')).abi;
 const wETH_address = '0xFC00000000000000000000000000000000000006';
 
@@ -45,7 +45,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
         const withdrawAmount = ethers.parseUnits('0.5', 18);
 
-        const withdraw = await bridgeContract.withdraw( wETH_address, withdrawAmount,  1, deployer.address);
+        const withdraw = await bridgeContract.withdraw( wETH_address, withdrawAmount,  2, deployer.address);
         const withdrawTxResult = await withdraw.wait();
         // console.log(colors.white("---- depositTxResult Tx Result"));
         // console.log(depositTxResult);

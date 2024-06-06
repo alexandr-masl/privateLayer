@@ -1,7 +1,6 @@
 require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
-const provider = new ethers.JsonRpcProvider();
 const colors = require('colors');
 
 

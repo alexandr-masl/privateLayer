@@ -3,7 +3,7 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-const { BridgeIN_address } = require('./settings.json');
+const { BridgeIN_address } = require('../settings.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeIN.sol/BridgeIN.json')).abi;
 const wETH_address = '0xFC00000000000000000000000000000000000006';
 

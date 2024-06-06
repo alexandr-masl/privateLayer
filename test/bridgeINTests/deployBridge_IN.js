@@ -2,7 +2,7 @@ require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const colors = require('colors');
-const { Validator_1 } = require('./settings.json');
+const { Validator_1 } = require('../settings.json');
 
 describe("Bridge Contract Deployment and Interaction", function () {
     let deployer, bridge, ercHandler;
