@@ -46,7 +46,6 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
         console.log(colors.white("::::::::::: handlerAddress:"), handlerAddress)
 
-
         const approveTx = await wETH.connect(deployer).approve(handlerAddress, amountToDeposit);
         await approveTx.wait();
         // Check the allowance
@@ -61,8 +60,9 @@ describe("Bridge Contract Deployment and Interaction", function () {
         console.log(colors.white(`:::::::: Bridge contract handler address: ${handler}`));
 
         const depositAmount = ethers.parseUnits('1', 18);
+        const gasFee = ethers.parseUnits('0.01', 'ether'); // Example gas fee
 
-        const deposit = await bridgeContract.deposit(wETH_address, deployer.address, depositAmount);
+        const deposit = await bridgeContract.deposit(wETH_address, deployer.address, depositAmount, { value: gasFee });
         const depositTxResult = await deposit.wait();
         // console.log(colors.white("---- depositTxResult Tx Result"));
         // console.log(depositTxResult);
@@ -73,4 +73,6 @@ describe("Bridge Contract Deployment and Interaction", function () {
         const wETHbalance = await wETH.connect(deployer).balanceOf(deployer.address);
         console.log(colors.white("::::::::::: Deployer WETH Balance:"), wETHbalance)
     });
+
+    
 });

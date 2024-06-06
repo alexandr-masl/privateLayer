@@ -1,49 +1,38 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import {IHandler} from "./interfaces/IHandler.sol";
-import "hardhat/console.sol"; // Import Hardhat console library
+import "hardhat/console.sol";
 
-
-contract BridgeIN {
+contract BridgeIN is Ownable {
 
     struct Proposal {
         bool executed;
         uint validationsNonce;
         address token;
         uint amount; 
-        uint64  withdrawNonce; 
+        uint  withdrawNonce; 
         address user;
     }
 
-    address owner;
+    address public mainValidator;
     uint public depositNonce;
     uint public validatorstNonce;
     address public erc20Handler;
     mapping(address => bool) validators;
     mapping(uint => Proposal) proposals;
 
-    modifier onlyOwner() {
-        _onlyOwner();
-        _;
-    }
-
     modifier onlyValidator() {
         _onlyValidator();
         _;
-    }
-
-    function _onlyOwner() private view {
-        require(msg.sender == owner, "sender must be owner");
     }
 
     function _onlyValidator() private view {
         require(validators[msg.sender], "sender must be a validator");
     }
 
-    constructor(){
-        owner = msg.sender;
-    }
+    constructor() Ownable(msg.sender) {}
     
     event Deposit(
         address tokenAddress,
@@ -62,7 +51,8 @@ contract BridgeIN {
         address tokenAddress,
         address depositor,
         uint256 amount
-    ) external {
+    ) external payable {
+        require(msg.value > 0, "value of validator reward is too low");
 
         depositNonce++;
 
@@ -72,7 +62,7 @@ contract BridgeIN {
         emit Deposit(returnedTokenAddress, returnedDepositor, returnedAmount, depositNonce);
     }
 
-    function withdraw(address token, uint amount, uint64  withdrawNonce, address user) external onlyValidator() {
+    function withdraw(address token, uint amount, uint withdrawNonce, address user, uint validatorReward) external onlyValidator() {
 
         require(!proposals[withdrawNonce].executed, "Proposal is executed");
 
@@ -89,7 +79,10 @@ contract BridgeIN {
             proposals[withdrawNonce].executed = true;
 
             IHandler withdrawHandler = IHandler(erc20Handler);
-            (address returnedTokenAddress, address returnedRecipient, uint256 returnedAmount) = withdrawHandler.executeProposal(amount, token, user);
+            (address returnedTokenAddress, address returnedRecipient, uint256 returnedAmount) = withdrawHandler.withdraw(amount, token, user);
+
+            (bool success, ) = msg.sender.call{value: validatorReward}("");
+            require(success, "Rewards transfer failed");
 
             emit Withdraw(returnedTokenAddress, returnedRecipient, returnedAmount);
         }
@@ -108,6 +101,4 @@ contract BridgeIN {
         IHandler depositHandler = IHandler(erc20Handler);
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
     }
-
-
 }

@@ -1,53 +1,46 @@
 require('dotenv').config();
 const { ethers } = require("hardhat");
-const { BridgeIN_address } = require('../settings.json');
+const fs = require('fs');
+const { BridgeIN_address, Validator_1, BridgeOUT_address } = require('../settings.json');
+const colors = require('colors');
+const bridgeOUTAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeOUT.sol/BridgeOUT.json')).abi;
+const bridgeINAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeIN.sol/BridgeIN.json')).abi;
 
 // Load environment variables
-const privateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const chain1RpcUrl = "http://127.0.0.1:8545";
 const chain2RpcUrl = "http://127.0.0.1:8546";
 const chain1ContractAddress = BridgeIN_address;
-const chain2ContractAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const chain2ContractAddress = BridgeOUT_address;
 
-if (!privateKey || !chain1RpcUrl || !chain2RpcUrl || !chain1ContractAddress || !chain2ContractAddress) {
+if (!Validator_1 || !chain1RpcUrl || !chain2RpcUrl || !chain1ContractAddress || !chain2ContractAddress) {
   throw new Error("Missing environment variables");
 }
 
-// Initialize providers and wallet
+// Initialize providers and validator's wallet
 const provider1 = new ethers.JsonRpcProvider(chain1RpcUrl);
 const provider2 = new ethers.JsonRpcProvider(chain2RpcUrl);
-const wallet = new ethers.Wallet(privateKey);
+const validatorWallet = new ethers.Wallet(Validator_1);
 
 async function main() {
   try {
-    // Contract ABI (simplified for example purposes)
-    const chain1Abi = [
-      "event Deposit(address tokenAddress, address depositor, uint amount, uint nonce)",
-      "function withdraw(address token, uint amount, uint64 withdrawNonce, address user) external"
-    ];    
-    const chain2Abi = [
-      "event Withdraw(address token, uint amount, uint64  withdrawNonce, address user)",
-      "function handleProposal(uint8 destinationDomainID, uint resourceID, uint64 depositNonce, address user)"
-    ];
-
     // Initialize contracts
-    const contract1 = new ethers.Contract(chain1ContractAddress, chain1Abi, wallet.connect(provider1));
-    const contract2 = new ethers.Contract(chain2ContractAddress, chain2Abi, wallet.connect(provider2));
+    const contract1 = new ethers.Contract(chain1ContractAddress, bridgeINAbi, validatorWallet.connect(provider1));
+    const contract2 = new ethers.Contract(chain2ContractAddress, bridgeOUTAbi, validatorWallet.connect(provider2));
 
-    console.log('Listening for events on Chain 1...');
+    console.log(colors.green('Listening for events on Chain 1...'));
 
     contract1.on('Deposit', async (tokenAddress, depositor, amount, nonce) => {
 
-      console.log(`Event detected: tokenAddress=${tokenAddress}, depositor=${depositor}, depositNonce=${nonce}, amount=${amount}`);
+      console.log(colors.white(`\n\nDeposit from Chain 1 detected: tokenAddress=${tokenAddress}, depositor=${depositor}, depositNonce=${nonce}, amount=${amount}`));
 
-      // try {
-      //   const tx = await contract2.handleProposal(destinationDomainID, resourceID, depositNonce, user);
-      //   console.log(`Transaction sent to Chain 2 with hash: ${tx.hash}`);
-      //   await tx.wait();
-      //   console.log('Transaction confirmed on Chain 2');
-      // } catch (error) {
-      //   console.error('Error handling event on Chain 2:', error);
-      // }
+      try {
+        const tx = await contract2.deposit(tokenAddress, amount, nonce, depositor);
+        console.log(`Transaction sent to Chain 2 with hash: ${tx.hash}`);
+        await tx.wait();
+        console.log(colors.green('Transaction confirmed on Chain 2'));
+      } catch (error) {
+        console.error('Error handling event on Chain 2:', error);
+      }
     });
 
     contract2.on('Withdraw', async (token, amount, withdrawNonce, user) => {

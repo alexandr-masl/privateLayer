@@ -7,6 +7,6 @@ pragma solidity 0.8.20;
  */
 interface IHandler {
     function deposit(address tokenAddress, address depositor, uint256 amount) external returns (address, address, uint256);
-    function executeProposal(uint256 amount, address tokenAddress, address recipientAddress) external returns (address, address, uint256);
+    function withdraw(uint256 amount, address tokenAddress, address recipientAddress) external returns (address, address, uint256);
     function setResource(address token, bool isBurnable, bool isWhitelisted) external;
 }
