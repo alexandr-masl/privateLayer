@@ -9,11 +9,13 @@ const wETH_address = '0xFC00000000000000000000000000000000000006';
 
 
 describe("Bridge Contract Deployment and Interaction", function () {
-    let deployer, wETH, bridgeContract;
+    let deployer, wETH, bridgeContract, provider, validator;
 
     before(async function () {
         [deployer] = await ethers.getSigners();
-        console.log(`Performing with the account: ${deployer.address}`);
+        provider = deployer.provider;
+        validator = new ethers.Wallet(Validator_1, provider);
+        console.log(`Performing with the account: ${validator.address}`);
 
         wETH = await ethers.getContractAt([
             "function deposit() payable",
@@ -21,15 +23,6 @@ describe("Bridge Contract Deployment and Interaction", function () {
             "function approve(address spender, uint256 amount) external returns (bool)",
             "function allowance(address owner, address spender) view returns (uint256)"
         ], wETH_address);
-
-        // bridgeContract = new ethers.Contract(
-        //     BridgeIN_address, 
-        //     bridgeAbi, 
-        //     deployer
-        // );
-
-        const provider = deployer.provider;
-        const validator = new ethers.Wallet(Validator_1, provider);
 
         bridgeContract = new ethers.Contract(
             BridgeIN_address, 
@@ -44,13 +37,14 @@ describe("Bridge Contract Deployment and Interaction", function () {
         console.log(colors.white(`:::::::: Bridge contract handler address: ${handler}`));
 
         const withdrawAmount = ethers.parseUnits('0.5', 18);
+        const validatorRewardAmount = ethers.parseUnits('0.0001', 18);
 
-        const withdraw = await bridgeContract.withdraw( wETH_address, withdrawAmount,  2, deployer.address);
+        const withdraw = await bridgeContract.withdraw(wETH_address, withdrawAmount, 2, validator.address, validatorRewardAmount);
         const withdrawTxResult = await withdraw.wait();
         // console.log(colors.white("---- depositTxResult Tx Result"));
         // console.log(depositTxResult);
 
-        const wETHbalanceAfterWithdraw = await wETH.connect(deployer).balanceOf(handler);
+        const wETHbalanceAfterWithdraw = await wETH.connect(deployer).balanceOf(validator.address);
         console.log(colors.white("::::::::::: Handler WETH Balance after withdraw:"), wETHbalanceAfterWithdraw)
 
         const wETHbalance = await wETH.connect(deployer).balanceOf(deployer.address);

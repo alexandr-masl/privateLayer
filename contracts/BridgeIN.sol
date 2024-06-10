@@ -61,7 +61,7 @@ contract BridgeIN is Ownable {
 
         emit Deposit(returnedTokenAddress, returnedDepositor, returnedAmount, depositNonce);
     }
-
+    
     function withdraw(address token, uint amount, uint withdrawNonce, address user, uint validatorReward) external onlyValidator() {
 
         require(!proposals[withdrawNonce].executed, "Proposal is executed");

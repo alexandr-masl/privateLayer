@@ -1,7 +1,7 @@
 require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
-const { Validator_1, Bridged_Token_Address } = require('../settings.json');
+const {Bridged_Token_Address } = require('../deploySettings.json');
 const colors = require('colors');
 
 async function main() {
@@ -12,7 +12,6 @@ async function main() {
     const initialSupply = ethers.parseUnits('1000000000000000000000', 18);
     const Token = await ethers.getContractFactory("Token");
     const token = await Token.deploy("Private FRAX", "prvtFRAX", initialSupply);
-    await token.deployed();
     console.log(colors.white(`:::::::: Token contract deployed to: ${token.target}`));
 
     const deployerBalance = await token.balanceOf(deployer.address);
@@ -21,13 +20,11 @@ async function main() {
     // Deploy the BridgeOUT contract
     const BridgeOUT = await ethers.getContractFactory("BridgeOUT");
     const bridge = await BridgeOUT.deploy();
-    await bridge.deployed();
     console.log(colors.white(`:::::::: BridgeOUT contract deployed to: ${bridge.target}`));
 
     // Deploy the ERC20Handler contract
     const ERC20Handler = await ethers.getContractFactory("ERC20Handler");
     const ercHandler = await ERC20Handler.deploy(bridge.target);
-    await ercHandler.deployed();
     console.log(colors.white(`:::::::: ERC20Handler contract deployed to: ${ercHandler.target}`));
 
     // Set Token's Handler
@@ -47,10 +44,10 @@ async function main() {
     console.log(colors.white(`:::::::: Token set in ERC20Handler`));
 
     // Set Validator in Bridge
-    const validator = new ethers.Wallet(Validator_1);
-    console.log(colors.white(`:::::::: Validator 1 address: ${validator.target}`));
+    const validator = new ethers.Wallet(process.env.Validator_1);
+    console.log(colors.white(`:::::::: Validator 1 address: ${validator.address}`));
 
-    const setValidator = await bridge.connect(deployer).setValidator(validator.target);
+    const setValidator = await bridge.connect(deployer).setValidator(validator.address);
     await setValidator.wait();
     console.log(colors.white(`:::::::: Validator set in Bridge`));
 }

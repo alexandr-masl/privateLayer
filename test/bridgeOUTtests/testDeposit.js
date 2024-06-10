@@ -3,7 +3,7 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-const { BridgeOUT_address, Private_Token_Address, Validator_1 } = require('../settings.json');
+const { BridgeOUT_address, Private_Token_Address, Validator_1, Bridged_Token_Address } = require('../settings.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeOUT.sol/BridgeOUT.json')).abi;
 
 
@@ -20,12 +20,6 @@ describe("Bridge Contract Deployment and Interaction", function () {
             "function approve(address spender, uint256 amount) external returns (bool)",
             "function allowance(address owner, address spender) view returns (uint256)"
         ], Private_Token_Address);
-
-        // bridgeContract = new ethers.Contract(
-        //     BridgeIN_address, 
-        //     bridgeAbi, 
-        //     deployer
-        // );
 
         const provider = deployer.provider;
         validator = new ethers.Wallet(Validator_1, provider);
@@ -48,7 +42,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
         console.log(colors.white("::::::::::: Validator prvtToken Balance before deposit:"), prvtTokenbalanceAfterWithdraw)
 
 
-        const withdraw = await bridgeContract.deposit( Private_Token_Address, withdrawAmount,  4, validator.address);
+        const withdraw = await bridgeContract.deposit( Bridged_Token_Address, withdrawAmount,  4, validator.address);
         const withdrawTxResult = await withdraw.wait();
         console.log(colors.white("---- depositTxResult Tx Result"));
         // console.log(depositTxResult);
