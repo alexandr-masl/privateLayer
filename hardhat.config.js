@@ -29,6 +29,10 @@ module.exports = {
     },
     node2: {
       url: 'http://127.0.0.1:8546'
+    },
+    privateSubnet: {
+      url: 'http://195.7.7.76:9650/ext/bc/k1Y3356wMav8d9pVMyY8NchuFhxBpYxjS7zjZrc4dMkvSqxwS/rpc',
+      accounts: [process.env.PRIVATE_KEY],
     }
   }
 };
