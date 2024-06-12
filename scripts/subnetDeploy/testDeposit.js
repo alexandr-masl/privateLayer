@@ -38,13 +38,13 @@ async function main() {
     const prvtTokenbalanceBeforeWithdraw = await prvtToken.connect(deployer).balanceOf(validator.address);
     console.log(colors.white("::::::::::: Validator prvtToken Balance before deposit:"), ethers.formatUnits(prvtTokenbalanceBeforeWithdraw, 18));
 
-    const deposit = await bridgeContract.deposit(Bridged_Token_Address, depositAmount, 4, validator.address, {
-        gasPrice: 775000000000
-    });
+    // const deposit = await bridgeContract.deposit(Bridged_Token_Address, depositAmount, 4, validator.address, {
+    //     gasPrice: 775000000000
+    // });
         
-    const depositTxResult = await deposit.wait();
-    console.log(colors.white("---- depositTxResult Tx Result"));
-    console.log(depositTxResult);
+    // const depositTxResult = await deposit.wait();
+    // console.log(colors.white("---- depositTxResult Tx Result"));
+    // console.log(depositTxResult);
 
     const prvtTokenbalanceAfterWithdraw = await prvtToken.connect(deployer).balanceOf(validator.address);
     console.log(colors.white("::::::::::: Validator prvtToken Balance after deposit:"), ethers.formatUnits(prvtTokenbalanceAfterWithdraw, 18));

@@ -3,7 +3,7 @@ const { ethers } = require('hardhat');
 require('dotenv').config();
 
 // Define the RPC endpoint
-const rpcUrl = 'http://195.7.7.76:9650/ext/bc/k1Y3356wMav8d9pVMyY8NchuFhxBpYxjS7zjZrc4dMkvSqxwS/rpc';
+const rpcUrl = 'http://127.0.0.1:8545';
 
 
 (async ()=> {
