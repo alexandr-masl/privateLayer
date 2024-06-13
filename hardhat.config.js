@@ -16,10 +16,27 @@ module.exports = {
     hardhat: {
       forking: {
         url: 'https://rpc.frax.com',
-        // Optionally, specify a block number to fork from a specific point in time
-        // blockNumber: 1234567
+        blockNumber: 5732504
       },
-      port: 8545
+      hardfork: 'london', // specify the latest supported hardfork
+      chains: {
+        1: {
+          hardforkHistory: {
+            byzantium: 4370000,
+            constantinople: 7280000,
+            petersburg: 7280000,
+            istanbul: 9069000,
+            muirGlacier: 9200000,
+            berlin: 12244000,
+            london: 12965000,
+            arrowGlacier: 13773000,
+            grayGlacier: 15050000,
+            merge: 15537394,
+            shanghai: 16813390,
+            // add future hardforks here when known
+          }
+        }
+      }
     },
     localhost: {
       url: 'http://127.0.0.1:8545'

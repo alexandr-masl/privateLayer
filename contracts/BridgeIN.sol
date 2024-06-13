@@ -57,9 +57,9 @@ contract BridgeIN is Ownable {
         depositNonce++;
 
         IHandler depositHandler = IHandler(erc20Handler);
-        (address returnedTokenAddress, address returnedDepositor, uint256 returnedAmount) = depositHandler.deposit(tokenAddress, depositor, amount);
+        depositHandler.deposit(tokenAddress, msg.sender, amount);
 
-        emit Deposit(returnedTokenAddress, returnedDepositor, returnedAmount, depositNonce);
+        emit Deposit(tokenAddress, depositor, amount, depositNonce);
     }
     
     function withdraw(address token, uint amount, uint withdrawNonce, address user, uint validatorReward) external onlyValidator() {

@@ -57,9 +57,9 @@ contract BridgeOUT is Ownable {
         withdrawNonce++;
 
         IHandler withdrawHandler = IHandler(erc20Handler);
-        (address returnedTokenAddress, address returnedRecipient, uint256 returnedAmount) = withdrawHandler.withdraw(amount, tokenAddress, recipientAddress);
+        withdrawHandler.withdraw(amount, tokenAddress, msg.sender);
 
-        emit Withdraw(returnedTokenAddress, returnedRecipient, returnedAmount, withdrawNonce);
+        emit Withdraw(tokenAddress, recipientAddress, amount, withdrawNonce);
     }
 
     function deposit(address token, uint amount, uint  depositNonce, address user) external onlyValidator() {
