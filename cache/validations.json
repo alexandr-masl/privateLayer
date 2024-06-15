@@ -63,6 +63,535 @@
       "contracts/BridgeOUT.sol:BridgeOUT": {
         "src": "contracts/BridgeOUT.sol:8",
         "version": {
+          "withMetadata": "4b62ba64e239a3c5cdb1f30a8eabec7f3847abaf170a53aa0b2115ef94c77c09",
+          "withoutMetadata": "c683ac9b433c4fddfde5ff248f7815a9cbff3f55045f6e53cbd625f29390e8a2",
+          "linkedWithoutMetadata": "c683ac9b433c4fddfde5ff248f7815a9cbff3f55045f6e53cbd625f29390e8a2"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "withdraw(address,address,uint256)",
+          "deposit(address,uint256,uint256,address)",
+          "setHandler(address)",
+          "setValidator(address)",
+          "setToken(address,bool,bool,address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "BridgeOUT",
+            "src": "contracts/BridgeOUT.sol:36"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "withdrawNonce",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:19"
+            },
+            {
+              "label": "validatorstNonce",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_uint256",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:20"
+            },
+            {
+              "label": "erc20Handler",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_address",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:21"
+            },
+            {
+              "label": "validators",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:22"
+            },
+            {
+              "label": "proposals",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_uint256,t_struct(Proposal)198_storage)",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:23"
+            },
+            {
+              "label": "erc20PrivatePair",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_address,t_address)",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:24"
+            },
+            {
+              "label": "erc20MainnetPair",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_mapping(t_address,t_address)",
+              "contract": "BridgeOUT",
+              "src": "contracts/BridgeOUT.sol:25"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_mapping(t_address,t_address)": {
+              "label": "mapping(address => address)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(Proposal)198_storage)": {
+              "label": "mapping(uint256 => struct BridgeOUT.Proposal)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(Proposal)198_storage": {
+              "label": "struct BridgeOUT.Proposal",
+              "members": [
+                {
+                  "label": "executed",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "validationsNonce",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "token",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "amount",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "depositNonce",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "4"
+                },
+                {
+                  "label": "user",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "5"
+                }
+              ],
+              "numberOfBytes": "192"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/interfaces/IHandler.sol:IHandler": {
+        "src": "contracts/interfaces/IHandler.sol:8",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "deposit(address,address,uint256)",
+          "withdraw(uint256,address,address)",
+          "setResource(address,bool,bool)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "hardhat/console.sol:console": {
+        "src": "hardhat/console.sol:4",
+        "version": {
+          "withMetadata": "b1be11c3bf90cff557541588c2ae5cd66dca02f69e0972ceeb9da182ee9131c5",
+          "withoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db",
+          "linkedWithoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      }
+    },
+    {
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/BridgeIN.sol:BridgeIN": {
+        "src": "contracts/BridgeIN.sol:8",
+        "version": {
+          "withMetadata": "2da8ee383f1f71f1401dd02fd8f483ed154328a64e50c697d6f2e7d5b44d85ba",
+          "withoutMetadata": "54209f3c5b2af0acc6953106f0465dea219550750c96c3851b8a22fc0d8d0f29",
+          "linkedWithoutMetadata": "54209f3c5b2af0acc6953106f0465dea219550750c96c3851b8a22fc0d8d0f29"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "deposit(address,address,uint256)",
+          "withdraw(address,uint256,uint256,address,uint256)",
+          "setHandler(address)",
+          "setValidator(address)",
+          "setToken(address,bool,bool)",
+          "()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "BridgeIN",
+            "src": "contracts/BridgeIN.sol:35"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "mainValidator",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_address",
+              "contract": "BridgeIN",
+              "src": "contracts/BridgeIN.sol:19"
+            },
+            {
+              "label": "depositNonce",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_uint256",
+              "contract": "BridgeIN",
+              "src": "contracts/BridgeIN.sol:20"
+            },
+            {
+              "label": "validatorstNonce",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_uint256",
+              "contract": "BridgeIN",
+              "src": "contracts/BridgeIN.sol:21"
+            },
+            {
+              "label": "erc20Handler",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_address",
+              "contract": "BridgeIN",
+              "src": "contracts/BridgeIN.sol:22"
+            },
+            {
+              "label": "validators",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "BridgeIN",
+              "src": "contracts/BridgeIN.sol:23"
+            },
+            {
+              "label": "proposals",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_uint256,t_struct(Proposal)198_storage)",
+              "contract": "BridgeIN",
+              "src": "contracts/BridgeIN.sol:24"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_uint256,t_struct(Proposal)198_storage)": {
+              "label": "mapping(uint256 => struct BridgeIN.Proposal)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(Proposal)198_storage": {
+              "label": "struct BridgeIN.Proposal",
+              "members": [
+                {
+                  "label": "executed",
+                  "type": "t_bool",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "validationsNonce",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "1"
+                },
+                {
+                  "label": "token",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "2"
+                },
+                {
+                  "label": "amount",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "3"
+                },
+                {
+                  "label": "withdrawNonce",
+                  "type": "t_uint256",
+                  "offset": 0,
+                  "slot": "4"
+                },
+                {
+                  "label": "user",
+                  "type": "t_address",
+                  "offset": 0,
+                  "slot": "5"
+                }
+              ],
+              "numberOfBytes": "192"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/interfaces/IHandler.sol:IHandler": {
+        "src": "contracts/interfaces/IHandler.sol:8",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "deposit(address,address,uint256)",
+          "withdraw(uint256,address,address)",
+          "setResource(address,bool,bool)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "hardhat/console.sol:console": {
+        "src": "hardhat/console.sol:4",
+        "version": {
+          "withMetadata": "b1be11c3bf90cff557541588c2ae5cd66dca02f69e0972ceeb9da182ee9131c5",
+          "withoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db",
+          "linkedWithoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      }
+    },
+    {
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/BridgeOUT.sol:BridgeOUT": {
+        "src": "contracts/BridgeOUT.sol:8",
+        "version": {
           "withMetadata": "89237ada28c4d7034292c1a67254fff943cd5d2a4c86ccad52d3cee0e144bff8",
           "withoutMetadata": "45b0ec3e05475e9fd6b0fdcd535d0b1b30173bd242aa8a88dca6d7da84245465",
           "linkedWithoutMetadata": "45b0ec3e05475e9fd6b0fdcd535d0b1b30173bd242aa8a88dca6d7da84245465"

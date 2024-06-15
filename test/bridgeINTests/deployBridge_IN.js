@@ -47,7 +47,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
     it("should set Validator in Bridge", async function () {
 
-        const validator= new ethers.Wallet(Validator_1);
+        const validator= new ethers.Wallet(process.env.Validator_1);
 
         console.log(colors.white(`:::::::: Validator 1 address: ${validator.address}`));
 

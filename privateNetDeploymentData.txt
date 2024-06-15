@@ -12,4 +12,16 @@ Deploying contracts with the account: 0x01Ae8d6d0F137CF946e354eA707B698E8CaE6485
 :::::::: Validator set in Bridge
 --------- --------- ---------
 
+--------- Jun 14 ---------
+:::::::: Token contract deployed to: 0x78cf00AEadbCB04300AE24910e5b67D4fc6cCD02
+:::::::: Deployer's token balance: 0.0 prvtFRAX
+:::::::: BridgeOUT contract deployed to: 0xe9E81a25829810c1BF1e6082E5EA0C65BE140462
+:::::::: ERC20Handler contract deployed to: 0x4a016717f9611e4b16AD0257a373a94B5284d1C2
+:::::::: Token Handler set
+:::::::: Handler address at bridge: 0x4a016717f9611e4b16AD0257a373a94B5284d1C2
+:::::::: Token set in ERC20Handler
+:::::::: Validator 1 address: 0x9Da201f324C4ce22fAe97310CFd08Bd650B17996
+:::::::: Validator set in Bridge
+--------- --------- ---------
+
 

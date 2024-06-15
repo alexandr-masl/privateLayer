@@ -101,4 +101,6 @@ contract BridgeIN is Ownable {
         IHandler depositHandler = IHandler(erc20Handler);
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
     }
+
+    receive() external payable {}
 }

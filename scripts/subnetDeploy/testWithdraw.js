@@ -17,8 +17,10 @@ async function main() {
         "function allowance(address owner, address spender) view returns (uint256)"
     ], Private_Token_Address);
 
+    const localNet_Acc_1_Key = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+
     const provider = deployer.provider;
-    const validator = new ethers.Wallet(process.env.Validator_1, provider);
+    const validator = new ethers.Wallet(localNet_Acc_1_Key, provider);
 
     const bridgeContract = new ethers.Contract(
         BridgeOUT_address, 
@@ -37,7 +39,7 @@ async function main() {
     console.log(colors.white("::::::::::: Validator prvtToken Balance before deposit:"), ethers.formatUnits(prvtTokenbalanceBeforeWithdraw, 18));
 
 
-    const withdrawAmount = ethers.parseUnits('0.5', 18);
+    const withdrawAmount = ethers.parseUnits('1', 18);
 
     //  should approve prvtToken for deposit to Bridge
     // const amountToWithdraw = ethers.parseUnits('3', 18);
@@ -47,16 +49,16 @@ async function main() {
     const approveTx = await prvtToken.connect(validator).approve(handlerAddress, withdrawAmount);
     await approveTx.wait();
     // Check the allowance
-    const allowance = await prvtToken.allowance(deployer.address, handlerAddress);
+    const allowance = await prvtToken.allowance(validator.address, handlerAddress);
     console.log(colors.white("::::::::::: HANDLER prvtToken Allowance:"), allowance.toString());
 
-    const withdraw = await bridgeContract.withdraw(prvtToken.target, validator.address, withdrawAmount, {
-        gasPrice: 775000000000
-    });
+    // const withdraw = await bridgeContract.withdraw(prvtToken.target, validator.address, withdrawAmount, {
+    //     gasPrice: 775000000000
+    // });
         
-    const withdrawTxResult = await withdraw.wait();
-    console.log(colors.white("---- withdrawTxResult Tx Result"));
-    console.log(withdrawTxResult);
+    // const withdrawTxResult = await withdraw.wait();
+    // console.log(colors.white("---- withdrawTxResult Tx Result"));
+    // console.log(withdrawTxResult);
 
     const prvtTokenbalanceAfterWithdraw = await prvtToken.connect(deployer).balanceOf(validator.address);
     console.log(colors.white("::::::::::: Validator prvtToken Balance after withdraw:"), ethers.formatUnits(prvtTokenbalanceAfterWithdraw, 18));

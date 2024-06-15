@@ -13,6 +13,8 @@ npx hardhat node --port 8546
 npx hardhat test test/bridgeINTests/depositToChain_2.js --network localhost
 npx hardhat test test/bridgeOUTtests/withdrawToChain_1.js --network node2  
 
+npx hardhat run scripts/subnetDeploy/testWithdraw.js --network privateSubnet
+
 
 ---- Node SSH: 
 ssh root@195.7.7.76     

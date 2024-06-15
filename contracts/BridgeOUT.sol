@@ -22,6 +22,7 @@ contract BridgeOUT is Ownable {
     mapping(address => bool) validators;
     mapping(uint => Proposal) proposals;
     mapping(address => address) erc20PrivatePair;
+    mapping(address => address) erc20MainnetPair;
 
     modifier onlyValidator() {
         _onlyValidator();
@@ -59,7 +60,7 @@ contract BridgeOUT is Ownable {
         IHandler withdrawHandler = IHandler(erc20Handler);
         withdrawHandler.withdraw(amount, tokenAddress, msg.sender);
 
-        emit Withdraw(tokenAddress, recipientAddress, amount, withdrawNonce);
+        emit Withdraw(erc20MainnetPair[tokenAddress], recipientAddress, amount, withdrawNonce);
     }
 
     function deposit(address token, uint amount, uint  depositNonce, address user) external onlyValidator() {
@@ -98,6 +99,7 @@ contract BridgeOUT is Ownable {
     function setToken(address _token, bool _isBurnable, bool _isWhitelisted, address _erc20Pair) external onlyOwner {
         IHandler depositHandler = IHandler(erc20Handler);
         erc20PrivatePair[_erc20Pair] = _token;
+        erc20MainnetPair[_token] = _erc20Pair;
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
     }
 }
