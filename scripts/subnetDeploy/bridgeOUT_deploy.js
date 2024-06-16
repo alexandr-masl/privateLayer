@@ -12,6 +12,9 @@ async function main() {
     const initialSupply = ethers.parseUnits('1000000000000000000000', 18);
     const Token = await ethers.getContractFactory("Token");
     const token = await Token.deploy("Private FRAX", "prvtFRAX", initialSupply);
+    
+    const tokenFRAX = await Token.deploy("Private FRAX", "prvtFRAX", initialSupply);
+
     console.log(colors.white(`:::::::: Token contract deployed to: ${token.target}`));
 
     const deployerBalance = await token.balanceOf(deployer.address);
@@ -41,7 +44,12 @@ async function main() {
     // Set prvtFRAX in ERC20Handler
     const setToken = await bridge.connect(deployer).setToken(token.target, true, true, Bridged_Token_Address);
     await setToken.wait();
-    console.log(colors.white(`:::::::: Token set in ERC20Handler`));
+    console.log(colors.white(`:::::::: WETH Token set in ERC20Handler`));
+
+     // Set prvtFRAX in ERC20Handler
+     const setFRAXToken = await bridge.connect(deployer).setToken(token.target, true, true, Bridged_Token_Address);
+     await setFRAXToken.wait();
+     console.log(colors.white(`:::::::: FRAX Token set in ERC20Handler`));
 
     // Set Validator in Bridge
     const validator = new ethers.Wallet(process.env.Validator_1);

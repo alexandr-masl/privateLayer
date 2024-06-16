@@ -45,6 +45,16 @@ describe("Bridge Contract Deployment and Interaction", function () {
         // console.log(setTokenTxReceipt);
     });
 
+    it("should set FRAX in ERC20Handler", async function () {
+
+        const FRAX_address = '0xFc00000000000000000000000000000000000001';
+
+        const setToken = await bridge.connect(deployer).setToken(FRAX_address, false, true);
+        const setTokenTxReceipt = await setToken.wait();
+        console.log(colors.white(`:::::::: setTokenTxReceipt:`));
+        // console.log(setTokenTxReceipt);
+    });
+
     it("should set Validator in Bridge", async function () {
 
         const validator= new ethers.Wallet(process.env.Validator_1);

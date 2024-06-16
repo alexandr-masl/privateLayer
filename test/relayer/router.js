@@ -1,7 +1,9 @@
 require('dotenv').config();
 const { ethers } = require("hardhat");
 const fs = require('fs');
-const { BridgeIN_address, Validator_1, BridgeOUT_address, Router_Chain_1_RPC, Router_Chain_2_RPC } = require('../settings.json');
+const {BridgeIN_address, BridgeOUT_address, Router_Chain_1_RPC, Router_Chain_2_RPC} = require('../../scripts/deploySettings.json');
+
+
 const colors = require('colors');
 const bridgeOUTAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeOUT.sol/BridgeOUT.json')).abi;
 const bridgeINAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeIN.sol/BridgeIN.json')).abi;
@@ -33,7 +35,7 @@ async function main() {
     console.log(colors.green('Listening for events on Chain 1...'));
 
     contract1.on('Deposit', async (tokenAddress, depositor, amount, nonce) => {
-      console.log(colors.white(`\n\nDeposit from Chain 1 detected: tokenAddress=${tokenAddress}, depositor=${depositor}, depositNonce=${nonce}, amount=${amount}`));
+      console.log(colors.yellow(`\n\nDeposit from Chain 1 detected: tokenAddress=${tokenAddress}, depositor=${depositor}, depositNonce=${nonce}, amount=${amount}`));
 
       console.log(`Validator:`, validatorWallet1.address);
 
@@ -62,6 +64,8 @@ async function main() {
         console.error('Error handling event on Chain 2:', error);
       }
     });
+
+    console.log(colors.green('Listening for events on Chain 2...'));
 
     contract2.on('Withdraw', async (token, recipient, amount, withdrawNonce) => {
       console.log(colors.yellow(`Withdraw Event on CHAIN 2 detected: user=${recipient}, amount=${amount}, token=${token} withdrawNonce=${withdrawNonce}`));
