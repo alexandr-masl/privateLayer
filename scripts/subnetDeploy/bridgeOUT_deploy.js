@@ -1,7 +1,7 @@
 require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
-const {Bridged_Token_Address } = require('../deploySettings.json');
+const {Bridged_Token_Address, FRAX_Token_Address } = require('../deploySettings.json');
 const colors = require('colors');
 
 async function main() {
@@ -11,14 +11,17 @@ async function main() {
     // Deploy the Token contract
     const initialSupply = ethers.parseUnits('1000000000000000000000', 18);
     const Token = await ethers.getContractFactory("Token");
-    const token = await Token.deploy("Private FRAX", "prvtFRAX", initialSupply);
-    
+    const tokenWETH = await Token.deploy("Private WETH", "prvtWETH", initialSupply);
     const tokenFRAX = await Token.deploy("Private FRAX", "prvtFRAX", initialSupply);
 
-    console.log(colors.white(`:::::::: Token contract deployed to: ${token.target}`));
+    console.log(colors.white(`:::::::: WETH Token contract deployed to: ${tokenWETH.target}`));
+    console.log(colors.white(`:::::::: FRAX Token contract deployed to: ${tokenFRAX.target}`));
 
-    const deployerBalance = await token.balanceOf(deployer.address);
-    console.log(colors.green(`:::::::: Deployer's token balance: ${ethers.formatUnits(deployerBalance, 18)} prvtFRAX`));
+    const deployerBalance = await tokenWETH.balanceOf(deployer.address);
+    console.log(colors.green(`:::::::: Deployer's tokenWETH balance: ${ethers.formatUnits(deployerBalance, 18)} prvtWETH`));
+
+    // const deployerFRAXBalance = await tokenFRAX.balanceOf(deployer.address);
+    // console.log(colors.green(`:::::::: Deployer's FRAX balance: ${ethers.formatUnits(deployerFRAXBalance, 18)} prvtFRAX`));
 
     // Deploy the BridgeOUT contract
     const BridgeOUT = await ethers.getContractFactory("BridgeOUT");
@@ -30,10 +33,14 @@ async function main() {
     const ercHandler = await ERC20Handler.deploy(bridge.target);
     console.log(colors.white(`:::::::: ERC20Handler contract deployed to: ${ercHandler.target}`));
 
-    // Set Token's Handler
-    const setHandler = await token.connect(deployer).setHandler(ercHandler.target);
+    // Set WETH Token's Handler
+    const setHandler = await tokenWETH.connect(deployer).setHandler(ercHandler.target);
     await setHandler.wait();
-    console.log(colors.white(`:::::::: Token Handler set`));
+    console.log(colors.white(`:::::::: WETH Token Handler set`));
+
+    const setFRAXHandler = await tokenFRAX.connect(deployer).setHandler(ercHandler.target);
+    await setFRAXHandler.wait();
+    console.log(colors.white(`:::::::: FRAX Token Handler set`));
 
     // Set ERC20Handler to the Bridge
     const setBridgeHandler = await bridge.connect(deployer).setHandler(ercHandler.target);
@@ -42,12 +49,12 @@ async function main() {
     console.log(colors.white(`:::::::: Handler address at bridge: ${handler}`));
 
     // Set prvtFRAX in ERC20Handler
-    const setToken = await bridge.connect(deployer).setToken(token.target, true, true, Bridged_Token_Address);
+    const setToken = await bridge.connect(deployer).setToken(tokenWETH.target, true, true, Bridged_Token_Address);
     await setToken.wait();
     console.log(colors.white(`:::::::: WETH Token set in ERC20Handler`));
 
      // Set prvtFRAX in ERC20Handler
-     const setFRAXToken = await bridge.connect(deployer).setToken(token.target, true, true, Bridged_Token_Address);
+     const setFRAXToken = await bridge.connect(deployer).setToken(tokenFRAX.target, true, true, FRAX_Token_Address);
      await setFRAXToken.wait();
      console.log(colors.white(`:::::::: FRAX Token set in ERC20Handler`));
 

@@ -25,3 +25,7 @@ YOoN6No3zsT0bMFaM4
 cd $GOPATH/src/github.com/ava-labs/avalanchego
 ./build/avalanchego --config-file ~/.avalanchego/config.json --network-id=fuji --http-host=0.0.0.0 --http-port=9650
 
+
+--- Node PrivateChain
+ssh root@100.42.188.82	
+T8moVBYqhStt56ua6L

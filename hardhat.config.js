@@ -51,6 +51,10 @@ module.exports = {
       url: 'http://195.7.7.76:9650/ext/bc/k1Y3356wMav8d9pVMyY8NchuFhxBpYxjS7zjZrc4dMkvSqxwS/rpc',
       accounts: [process.env.PRIVATE_KEY],
     },
+    privateChainL3: {
+      url: 'http://100.42.188.82:8449/',
+      accounts: [process.env.PRIVATE_KEY],
+    },
     FraxtalFork: {
       url: 'https://rpc.frax.com'
     }

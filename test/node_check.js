@@ -3,7 +3,7 @@ const { ethers } = require('hardhat');
 require('dotenv').config();
 
 // Define the RPC endpoint
-const rpcUrl = "http://195.7.7.76:9650/ext/bc/k1Y3356wMav8d9pVMyY8NchuFhxBpYxjS7zjZrc4dMkvSqxwS/rpc";
+const rpcUrl = "http://100.42.188.82:8449/";
 
 
 (async ()=> {
@@ -61,7 +61,7 @@ async function getBalance() {
     const balance = await provider.getBalance(address);
     // Convert the balance from Wei to Ether
     const balanceInEther = ethers.formatEther(balance);
-    console.log(`Balance of address ${address}:`, balanceInEther, 'AVAX');
+    console.log(`Balance of address ${address}:`, balanceInEther, 'ETH');
   } catch (error) {
     console.error('Error fetching balance:', error);
   }

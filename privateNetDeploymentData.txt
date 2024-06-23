@@ -25,3 +25,20 @@ Deploying contracts with the account: 0x01Ae8d6d0F137CF946e354eA707B698E8CaE6485
 --------- --------- ---------
 
 
+--------- Jun 16 ---------
+Deploying contracts with the account: 0x01Ae8d6d0F137CF946e354eA707B698E8CaE6485
+:::::::: WETH Token contract deployed to: 0x45fDAA2e025BACF36Db0980442E667DE0a823cC2
+:::::::: FRAX Token contract deployed to: 0x9A569a6904E342D37ea77c2dE0adFc0ee4619cd9
+:::::::: Deployer's tokenWETH balance: 0.0 prvtWETH
+:::::::: BridgeOUT contract deployed to: 0xb023c78e9f9bF38D8d45beedeA6a7e7412725f59
+:::::::: ERC20Handler contract deployed to: 0x1B48A90C87d527f0348D2602e8403c4F2CDB6c12
+:::::::: WETH Token Handler set
+:::::::: FRAX Token Handler set
+:::::::: Handler address at bridge: 0x1B48A90C87d527f0348D2602e8403c4F2CDB6c12
+:::::::: WETH Token set in ERC20Handler
+:::::::: FRAX Token set in ERC20Handler
+:::::::: Validator 1 address: 0x9Da201f324C4ce22fAe97310CFd08Bd650B17996
+:::::::: Validator set in Bridge
+--------- --------- ---------
+
+

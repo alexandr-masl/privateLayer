@@ -1,8 +1,10 @@
 {
     "Bridged_Token_Address": "0xFC00000000000000000000000000000000000006",
-    "BridgeIN_address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
-    "BridgeOUT_address": "0xe9E81a25829810c1BF1e6082E5EA0C65BE140462",
-    "Private_Token_Address": "0x78cf00AEadbCB04300AE24910e5b67D4fc6cCD02",
+    "FRAX_Token_Address": "0xFc00000000000000000000000000000000000001",
+    "BridgeIN_address": "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
+    "BridgeOUT_address": "0xb023c78e9f9bF38D8d45beedeA6a7e7412725f59",
+    "Private_Token_Address": "0x45fDAA2e025BACF36Db0980442E667DE0a823cC2",
+    "Private_FRAX_Token_Address": "0x9A569a6904E342D37ea77c2dE0adFc0ee4619cd9",
     "Router_Chain_1_RPC": "http://127.0.0.1:8545",
     "Router_Chain_2_RPC": "http://195.7.7.76:9650/ext/bc/k1Y3356wMav8d9pVMyY8NchuFhxBpYxjS7zjZrc4dMkvSqxwS/rpc"
 }
