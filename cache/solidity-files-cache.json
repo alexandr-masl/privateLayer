@@ -1161,6 +1161,86 @@
       "artifacts": [
         "Token"
       ]
+    },
+    "/Users/green/code/layer3dev/contracts/OracleBlockStorage.sol": {
+      "lastModificationDate": 1719160466730,
+      "contentHash": "882f0f5c33ebf74fabf6d19dae390f2d",
+      "sourceName": "contracts/OracleBlockStorage.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "storageLayout"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "OracleBlockStorage"
+      ]
+    },
+    "/Users/green/code/layer3dev/contracts/Bridge.sol": {
+      "lastModificationDate": 1719169824601,
+      "contentHash": "c8fed68db632e3f3a0c5ff90a4e1c16a",
+      "sourceName": "contracts/Bridge.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "evmVersion": "paris",
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "storageLayout"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "./interfaces/IHandler.sol",
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "0.8.20"
+      ],
+      "artifacts": [
+        "Bridge"
+      ]
     }
   }
 }
