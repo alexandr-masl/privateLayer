@@ -3,6 +3,7 @@ pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import {IHandler} from "./interfaces/IHandler.sol";
+import { OracleDepositStorage } from "./OracleDepositStorage.sol";
 import "hardhat/console.sol";
 
 contract Bridge is Ownable {
@@ -11,6 +12,8 @@ contract Bridge is Ownable {
     address public erc20Handler;
     mapping(address => bool) validators;
     mapping(bytes32 => bool) processedTransactions;
+
+    OracleDepositStorage oracleDepositStorage;
 
     modifier onlyValidator() {
         _onlyValidator();
@@ -21,7 +24,9 @@ contract Bridge is Ownable {
         require(validators[msg.sender], "sender must be a validator");
     }
 
-    constructor() Ownable(msg.sender) {}
+    constructor(address _oracleDepositStorage) Ownable(msg.sender) {
+        oracleDepositStorage = OracleDepositStorage(_oracleDepositStorage);
+    }
     
     event Deposit(
         address tokenAddress,
@@ -42,9 +47,20 @@ contract Bridge is Ownable {
         emit Deposit(tokenAddress, depositor, amount);
     }
 
-    function receiveTokens(bytes32 _txHash) external onlyValidator() { 
+    function receiveTokens(
+        bytes32 _txHash,
+        address _recipient,
+        address _tokenAddress,
+        uint256 _amount,
+        bytes32[] calldata _merkleProof
+    ) external {
         require(!processedTransactions[_txHash], "Transaction is processed");
-        
+
+        require(oracleDepositStorage.verifyStoredMerkleProof(_merkleProof, _txHash), "Invalid Merkle proof");
+
+        processedTransactions[_txHash] = true;
+
+        // Process the token transfer (e.g., mint tokens on the destination chain)
     }
 
     function setHandler(address _handler) external onlyOwner {

@@ -4,16 +4,34 @@ const { ethers } = require("hardhat");
 const colors = require('colors');
 
 describe("Bridge Contract Deployment and Interaction", function () {
-    let deployer, bridge, ercHandler;
+    let deployer, bridge, ercHandler, oracleDepositStorage;
 
     before(async function () {
         [deployer] = await ethers.getSigners();
         console.log(`Deploying contracts with the account: ${deployer.address}`);
     });
 
+    it("should deploy the OracleDepositStorage contract", async function () {
+        const OracleDepositStorage = await ethers.getContractFactory("OracleDepositStorage");
+        oracleDepositStorage = await OracleDepositStorage.deploy();
+        console.log(colors.white(`:::::::: OracleDepositStorage contract deployed to: ${oracleDepositStorage.target}`));
+    });
+
+    it("should set Trusted Oracle in OracleDepositStorage", async function () {
+
+        const validatorAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+
+        console.log(colors.white(`:::::::: Oracle 1 address: ${validatorAddress}`));
+
+        const setOracle = await oracleDepositStorage.connect(deployer).addTrustedOracle(validatorAddress);
+        const setOracleTxReceipt = await setOracle.wait();
+        console.log(colors.white(`:::::::: setOracleTxReceipt:`));
+        // console.log(setValidatorTxReceipt);
+    });
+
     it("should deploy the Bridge contract", async function () {
         const Bridge = await ethers.getContractFactory("Bridge");
-        bridge = await Bridge.deploy();
+        bridge = await Bridge.deploy(oracleDepositStorage.target);
         console.log(colors.white(`:::::::: Bridge contract deployed to: ${bridge.target}`));
     });
 

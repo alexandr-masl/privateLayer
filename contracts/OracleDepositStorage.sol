@@ -4,30 +4,19 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract OracleDepositStorage is Ownable {
-    // Structure to store deposit header information
-
-    struct DepositHeader {
-        address recipient;
-        address token;
-        uint amount;
-    }
-
     struct OracleSubmissionData {
-        address recipient;
-        address token;
-        uint amount;
+        bytes32 merkleRoot;
+        bytes32 leaf;
     }
 
-    // Mapping to store deposit headers by block number
-    mapping(bytes32 => DepositHeader) public depositHeaders;
     mapping(bytes32 => mapping(address => OracleSubmissionData)) public oracleSubmissionsData;
-    mapping(bytes32 => uint) depositSubmissions;
+    mapping(bytes32 => uint) public depositSubmissions;
     mapping(bytes32 => address[]) public submittingOracles;
+    mapping(bytes32 => bytes32) public txHashToMerkleRoot;
+    mapping(bytes32 => bytes32) public txHashToLeaf;
 
-    // Mapping to store trusted oracles
     mapping(address => bool) public trustedOracles;
 
-    // Modifier to restrict access to only trusted oracles
     modifier onlyTrustedOracle() {
         require(trustedOracles[msg.sender], "Not a trusted oracle");
         _;
@@ -36,52 +25,42 @@ contract OracleDepositStorage is Ownable {
     uint public oraclesAmount;
 
     event OracleCompromised(bytes32 indexed txHash);
-    event DepositHeaderSubmitted(bytes32 indexed txHash, address recipient, address token, uint amount);
+    event DepositHeaderSubmitted(bytes32 indexed txHash, bytes32 merkleRoot);
 
     constructor() Ownable(msg.sender) {}
 
-    // Function to add a trusted oracle
     function addTrustedOracle(address _oracle) external onlyOwner {
         oraclesAmount++;
         trustedOracles[_oracle] = true;
     }
 
-    // Function to remove a trusted oracle
     function removeTrustedOracle(address _oracle) external onlyOwner {
         oraclesAmount--;
         trustedOracles[_oracle] = false;
     }
 
-    // Function to submit block header data
     function submitDepositHeader(
         bytes32 _txHash,
-        address _recipient,
-        address _token,
-        uint _amount
+        bytes32 _merkleRoot,
+        bytes32 _leaf
     ) external onlyTrustedOracle {
-
-        require(oracleSubmissionsData[_txHash][msg.sender].recipient == address(0), "Oracle has already submitted this deposit header");
+        require(oracleSubmissionsData[_txHash][msg.sender].merkleRoot == bytes32(0), "Oracle has already submitted this deposit header");
 
         oracleSubmissionsData[_txHash][msg.sender] = OracleSubmissionData({
-            recipient: _recipient,
-            token: _token,
-            amount: _amount
+            merkleRoot: _merkleRoot,
+            leaf: _leaf
         });
 
         depositSubmissions[_txHash]++;
         submittingOracles[_txHash].push(msg.sender);
 
-        // Calculate the threshold for 77% of oracles
         uint threshold = (oraclesAmount * 77) / 100;
 
         if (depositSubmissions[_txHash] >= threshold) {
-            if (allOraclesSubmittedSameData(_txHash, _recipient, _token, _amount)) {
-                depositHeaders[_txHash] = DepositHeader({
-                    recipient: _recipient,
-                    token: _token,
-                    amount: _amount
-                });
-                emit DepositHeaderSubmitted(_txHash, _recipient, _token, _amount);
+            if (allOraclesSubmittedSameData(_txHash, _merkleRoot, _leaf)) {
+                txHashToMerkleRoot[_txHash] = _merkleRoot;
+                txHashToLeaf[_txHash] = _leaf;
+                emit DepositHeaderSubmitted(_txHash, _merkleRoot);
             } else {
                 handleCompromisedOracle(_txHash);
             }
@@ -90,14 +69,13 @@ contract OracleDepositStorage is Ownable {
 
     function allOraclesSubmittedSameData(
         bytes32 _txHash,
-        address _recipient,
-        address _token,
-        uint _amount
+        bytes32 _merkleRoot,
+        bytes32 _leaf
     ) internal view returns (bool) {
         address[] memory submitters = submittingOracles[_txHash];
         for (uint i = 0; i < submitters.length; i++) {
             OracleSubmissionData memory data = oracleSubmissionsData[_txHash][submitters[i]];
-            if (data.recipient != _recipient || data.token != _token || data.amount != _amount) {
+            if (data.merkleRoot != _merkleRoot || data.leaf != _leaf) {
                 return false;
             }
         }
@@ -105,12 +83,40 @@ contract OracleDepositStorage is Ownable {
     }
 
     function handleCompromisedOracle(bytes32 _txHash) internal {
-        
         emit OracleCompromised(_txHash);
     }
 
-    // Function to retrieve block header data by block number
-    function getBlockHeader(bytes32 _txHash) external view returns (DepositHeader memory) {
-        return depositHeaders[_txHash];
+    function getMerkleRootByTxHash(bytes32 _txHash) external view returns (bytes32) {
+        return txHashToMerkleRoot[_txHash];
+    }
+
+    function verifyMerkleProof(
+        bytes32[] memory proof,
+        bytes32 root,
+        bytes32 leaf
+    ) public pure returns (bool) {
+        bytes32 computedHash = leaf;
+
+        for (uint256 i = 0; i < proof.length; i++) {
+            bytes32 proofElement = proof[i];
+
+            if (computedHash <= proofElement) {
+                computedHash = keccak256(abi.encodePacked(computedHash, proofElement));
+            } else {
+                computedHash = keccak256(abi.encodePacked(proofElement, computedHash));
+            }
+        }
+
+        return computedHash == root;
+    }
+
+    function verifyStoredMerkleProof(
+        bytes32[] memory proof,
+        bytes32 txHash
+    ) public view returns (bool) {
+        bytes32 root = txHashToMerkleRoot[txHash];
+        bytes32 leaf = txHashToLeaf[txHash];
+
+        return verifyMerkleProof(proof, root, leaf);
     }
 }
