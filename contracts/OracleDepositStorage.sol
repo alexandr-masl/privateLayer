@@ -2,18 +2,19 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "hardhat/console.sol";
 
 contract OracleDepositStorage is Ownable {
     struct OracleSubmissionData {
         bytes32 merkleRoot;
-        bytes32 leaf;
+        bytes32[] leaves;
     }
 
     mapping(bytes32 => mapping(address => OracleSubmissionData)) public oracleSubmissionsData;
     mapping(bytes32 => uint) public depositSubmissions;
     mapping(bytes32 => address[]) public submittingOracles;
     mapping(bytes32 => bytes32) public txHashToMerkleRoot;
-    mapping(bytes32 => bytes32) public txHashToLeaf;
+    mapping(bytes32 => bytes32[]) public txHashToLeaves;
 
     mapping(address => bool) public trustedOracles;
 
@@ -42,13 +43,13 @@ contract OracleDepositStorage is Ownable {
     function submitDepositHeader(
         bytes32 _txHash,
         bytes32 _merkleRoot,
-        bytes32 _leaf
+        bytes32[] calldata _leaves
     ) external onlyTrustedOracle {
         require(oracleSubmissionsData[_txHash][msg.sender].merkleRoot == bytes32(0), "Oracle has already submitted this deposit header");
 
         oracleSubmissionsData[_txHash][msg.sender] = OracleSubmissionData({
             merkleRoot: _merkleRoot,
-            leaf: _leaf
+            leaves: _leaves
         });
 
         depositSubmissions[_txHash]++;
@@ -57,9 +58,9 @@ contract OracleDepositStorage is Ownable {
         uint threshold = (oraclesAmount * 77) / 100;
 
         if (depositSubmissions[_txHash] >= threshold) {
-            if (allOraclesSubmittedSameData(_txHash, _merkleRoot, _leaf)) {
+            if (allOraclesSubmittedSameData(_txHash, _merkleRoot, _leaves)) {
                 txHashToMerkleRoot[_txHash] = _merkleRoot;
-                txHashToLeaf[_txHash] = _leaf;
+                txHashToLeaves[_txHash] = _leaves;
                 emit DepositHeaderSubmitted(_txHash, _merkleRoot);
             } else {
                 handleCompromisedOracle(_txHash);
@@ -70,12 +71,12 @@ contract OracleDepositStorage is Ownable {
     function allOraclesSubmittedSameData(
         bytes32 _txHash,
         bytes32 _merkleRoot,
-        bytes32 _leaf
+        bytes32[] calldata _leaves
     ) internal view returns (bool) {
         address[] memory submitters = submittingOracles[_txHash];
         for (uint i = 0; i < submitters.length; i++) {
             OracleSubmissionData memory data = oracleSubmissionsData[_txHash][submitters[i]];
-            if (data.merkleRoot != _merkleRoot || data.leaf != _leaf) {
+            if (data.merkleRoot != _merkleRoot || keccak256(abi.encode(data.leaves)) != keccak256(abi.encode(_leaves))) {
                 return false;
             }
         }
@@ -112,13 +113,13 @@ contract OracleDepositStorage is Ownable {
 
     function verifyMerkleProof(
         bytes32[] memory proof,
-        bytes32 txHash
+        bytes32 txHash,
+        bytes32 leaf
     ) public view returns (bool) {
-        // Ensure the txHash exists in the mapping
-        require(txHashToMerkleRoot[txHash] != bytes32(0), "Transaction hash does not exist");
+
+        require(txHashToMerkleRoot[txHash] != bytes32(0), "Transaction does not exist");
 
         bytes32 root = txHashToMerkleRoot[txHash];
-        bytes32 leaf = txHashToLeaf[txHash];
 
         return _verifyMerkleProof(proof, root, leaf);
     }

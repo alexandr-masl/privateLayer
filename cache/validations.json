@@ -63,6 +63,1558 @@
       "contracts/Bridge.sol:Bridge": {
         "src": "contracts/Bridge.sol:9",
         "version": {
+          "withMetadata": "33e26dbaf2a7e8723b32bf7cc9159ed0cc8b54886a3d1d3f2958bd2d4ef55e21",
+          "withoutMetadata": "904825fd6bc99bed7d0406662741a404363cf43e58f68cf471ca6f3d5a1b3f6d",
+          "linkedWithoutMetadata": "904825fd6bc99bed7d0406662741a404363cf43e58f68cf471ca6f3d5a1b3f6d"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "(address)",
+          "depositTokens(address,address,uint256)",
+          "receiveTokens(bytes32,address,address,uint256,bytes32,bytes32[])",
+          "setHandler(address)",
+          "setValidator(address)",
+          "setToken(address,bool,bool)",
+          "()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Bridge",
+            "src": "contracts/Bridge.sol:27"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "validatorstNonce",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:11"
+            },
+            {
+              "label": "erc20Handler",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_address",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:12"
+            },
+            {
+              "label": "validators",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:13"
+            },
+            {
+              "label": "processedTransactions",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:14"
+            },
+            {
+              "label": "oracleDepositStorage",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_contract(OracleDepositStorage)790",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:16"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_contract(OracleDepositStorage)790": {
+              "label": "contract OracleDepositStorage",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/OracleDepositStorage.sol:OracleDepositStorage": {
+        "src": "contracts/OracleDepositStorage.sol:7",
+        "version": {
+          "withMetadata": "275249c7ca57259d65b1bbd2e6fb40586652d31108b827b98221ac939de4cf9f",
+          "withoutMetadata": "4ea98a58d9ea7ea9aa73e0b76807deb6fa1d4ca575a8f3f7a937b64e40dbc5d1",
+          "linkedWithoutMetadata": "4ea98a58d9ea7ea9aa73e0b76807deb6fa1d4ca575a8f3f7a937b64e40dbc5d1"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "addTrustedOracle(address)",
+          "removeTrustedOracle(address)",
+          "submitDepositHeader(bytes32,bytes32,bytes32[])",
+          "getMerkleRootByTxHash(bytes32)",
+          "verifyMerkleProof(bytes32[],bytes32,bytes32)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "OracleDepositStorage",
+            "src": "contracts/OracleDepositStorage.sol:31"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "oracleSubmissionsData",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)399_storage))",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:13"
+            },
+            {
+              "label": "depositSubmissions",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_mapping(t_bytes32,t_uint256)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:14"
+            },
+            {
+              "label": "submittingOracles",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_bytes32,t_array(t_address)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:15"
+            },
+            {
+              "label": "txHashToMerkleRoot",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bytes32)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:16"
+            },
+            {
+              "label": "txHashToLeaves",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_bytes32,t_array(t_bytes32)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:17"
+            },
+            {
+              "label": "trustedOracles",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:19"
+            },
+            {
+              "label": "oraclesAmount",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_uint256",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:26"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_address)dyn_storage": {
+              "label": "address[]",
+              "numberOfBytes": "32"
+            },
+            "t_array(t_bytes32)dyn_storage": {
+              "label": "bytes32[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_struct(OracleSubmissionData)399_storage)": {
+              "label": "mapping(address => struct OracleDepositStorage.OracleSubmissionData)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_address)dyn_storage)": {
+              "label": "mapping(bytes32 => address[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_bytes32)dyn_storage)": {
+              "label": "mapping(bytes32 => bytes32[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bytes32)": {
+              "label": "mapping(bytes32 => bytes32)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)399_storage))": {
+              "label": "mapping(bytes32 => mapping(address => struct OracleDepositStorage.OracleSubmissionData))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_uint256)": {
+              "label": "mapping(bytes32 => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(OracleSubmissionData)399_storage": {
+              "label": "struct OracleDepositStorage.OracleSubmissionData",
+              "members": [
+                {
+                  "label": "merkleRoot",
+                  "type": "t_bytes32",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "leaves",
+                  "type": "t_array(t_bytes32)dyn_storage",
+                  "offset": 0,
+                  "slot": "1"
+                }
+              ],
+              "numberOfBytes": "64"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/interfaces/IHandler.sol:IHandler": {
+        "src": "contracts/interfaces/IHandler.sol:8",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "deposit(address,address,uint256)",
+          "withdraw(uint256,address,address)",
+          "setResource(address,bool,bool)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "hardhat/console.sol:console": {
+        "src": "hardhat/console.sol:4",
+        "version": {
+          "withMetadata": "b1be11c3bf90cff557541588c2ae5cd66dca02f69e0972ceeb9da182ee9131c5",
+          "withoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db",
+          "linkedWithoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      }
+    },
+    {
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/Bridge.sol:Bridge": {
+        "src": "contracts/Bridge.sol:9",
+        "version": {
+          "withMetadata": "77cc50f4353952cbb26a6dece9066c5483324b75ec21263bc570b17b84637da8",
+          "withoutMetadata": "904825fd6bc99bed7d0406662741a404363cf43e58f68cf471ca6f3d5a1b3f6d",
+          "linkedWithoutMetadata": "904825fd6bc99bed7d0406662741a404363cf43e58f68cf471ca6f3d5a1b3f6d"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "(address)",
+          "depositTokens(address,address,uint256)",
+          "receiveTokens(bytes32,address,address,uint256,bytes32,bytes32[])",
+          "setHandler(address)",
+          "setValidator(address)",
+          "setToken(address,bool,bool)",
+          "()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Bridge",
+            "src": "contracts/Bridge.sol:27"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "validatorstNonce",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:11"
+            },
+            {
+              "label": "erc20Handler",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_address",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:12"
+            },
+            {
+              "label": "validators",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:13"
+            },
+            {
+              "label": "processedTransactions",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:14"
+            },
+            {
+              "label": "oracleDepositStorage",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_contract(OracleDepositStorage)829",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:16"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_contract(OracleDepositStorage)829": {
+              "label": "contract OracleDepositStorage",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/OracleDepositStorage.sol:OracleDepositStorage": {
+        "src": "contracts/OracleDepositStorage.sol:7",
+        "version": {
+          "withMetadata": "23002823184b80b65d15b0fde1485c53276376c969f9d92df7821fcdeda19954",
+          "withoutMetadata": "032a0d6930406b2e0133ad55b97337dbd8f602dd7775a73a3051162c7c2cb123",
+          "linkedWithoutMetadata": "032a0d6930406b2e0133ad55b97337dbd8f602dd7775a73a3051162c7c2cb123"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "addTrustedOracle(address)",
+          "removeTrustedOracle(address)",
+          "submitDepositHeader(bytes32,bytes32,bytes32[])",
+          "getMerkleRootByTxHash(bytes32)",
+          "verifyMerkleProof(bytes32[],bytes32,bytes32)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "OracleDepositStorage",
+            "src": "contracts/OracleDepositStorage.sol:31"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "oracleSubmissionsData",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)399_storage))",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:13"
+            },
+            {
+              "label": "depositSubmissions",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_mapping(t_bytes32,t_uint256)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:14"
+            },
+            {
+              "label": "submittingOracles",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_bytes32,t_array(t_address)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:15"
+            },
+            {
+              "label": "txHashToMerkleRoot",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bytes32)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:16"
+            },
+            {
+              "label": "txHashToLeaves",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_bytes32,t_array(t_bytes32)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:17"
+            },
+            {
+              "label": "trustedOracles",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:19"
+            },
+            {
+              "label": "oraclesAmount",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_uint256",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:26"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_address)dyn_storage": {
+              "label": "address[]",
+              "numberOfBytes": "32"
+            },
+            "t_array(t_bytes32)dyn_storage": {
+              "label": "bytes32[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_struct(OracleSubmissionData)399_storage)": {
+              "label": "mapping(address => struct OracleDepositStorage.OracleSubmissionData)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_address)dyn_storage)": {
+              "label": "mapping(bytes32 => address[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_bytes32)dyn_storage)": {
+              "label": "mapping(bytes32 => bytes32[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bytes32)": {
+              "label": "mapping(bytes32 => bytes32)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)399_storage))": {
+              "label": "mapping(bytes32 => mapping(address => struct OracleDepositStorage.OracleSubmissionData))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_uint256)": {
+              "label": "mapping(bytes32 => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(OracleSubmissionData)399_storage": {
+              "label": "struct OracleDepositStorage.OracleSubmissionData",
+              "members": [
+                {
+                  "label": "merkleRoot",
+                  "type": "t_bytes32",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "leaves",
+                  "type": "t_array(t_bytes32)dyn_storage",
+                  "offset": 0,
+                  "slot": "1"
+                }
+              ],
+              "numberOfBytes": "64"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/interfaces/IHandler.sol:IHandler": {
+        "src": "contracts/interfaces/IHandler.sol:8",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "deposit(address,address,uint256)",
+          "withdraw(uint256,address,address)",
+          "setResource(address,bool,bool)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "hardhat/console.sol:console": {
+        "src": "hardhat/console.sol:4",
+        "version": {
+          "withMetadata": "b1be11c3bf90cff557541588c2ae5cd66dca02f69e0972ceeb9da182ee9131c5",
+          "withoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db",
+          "linkedWithoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      }
+    },
+    {
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/Bridge.sol:Bridge": {
+        "src": "contracts/Bridge.sol:9",
+        "version": {
+          "withMetadata": "5678d5e8914706da44edb471499e98c45240894d96df2fa346e03da2d63c821f",
+          "withoutMetadata": "904825fd6bc99bed7d0406662741a404363cf43e58f68cf471ca6f3d5a1b3f6d",
+          "linkedWithoutMetadata": "904825fd6bc99bed7d0406662741a404363cf43e58f68cf471ca6f3d5a1b3f6d"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "(address)",
+          "depositTokens(address,address,uint256)",
+          "receiveTokens(bytes32,address,address,uint256,bytes32,bytes32[])",
+          "setHandler(address)",
+          "setValidator(address)",
+          "setToken(address,bool,bool)",
+          "()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Bridge",
+            "src": "contracts/Bridge.sol:27"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "validatorstNonce",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:11"
+            },
+            {
+              "label": "erc20Handler",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_address",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:12"
+            },
+            {
+              "label": "validators",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:13"
+            },
+            {
+              "label": "processedTransactions",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:14"
+            },
+            {
+              "label": "oracleDepositStorage",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_contract(OracleDepositStorage)829",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:16"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_contract(OracleDepositStorage)829": {
+              "label": "contract OracleDepositStorage",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/OracleDepositStorage.sol:OracleDepositStorage": {
+        "src": "contracts/OracleDepositStorage.sol:7",
+        "version": {
+          "withMetadata": "23002823184b80b65d15b0fde1485c53276376c969f9d92df7821fcdeda19954",
+          "withoutMetadata": "032a0d6930406b2e0133ad55b97337dbd8f602dd7775a73a3051162c7c2cb123",
+          "linkedWithoutMetadata": "032a0d6930406b2e0133ad55b97337dbd8f602dd7775a73a3051162c7c2cb123"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "addTrustedOracle(address)",
+          "removeTrustedOracle(address)",
+          "submitDepositHeader(bytes32,bytes32,bytes32[])",
+          "getMerkleRootByTxHash(bytes32)",
+          "verifyMerkleProof(bytes32[],bytes32,bytes32)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "OracleDepositStorage",
+            "src": "contracts/OracleDepositStorage.sol:31"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "oracleSubmissionsData",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)399_storage))",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:13"
+            },
+            {
+              "label": "depositSubmissions",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_mapping(t_bytes32,t_uint256)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:14"
+            },
+            {
+              "label": "submittingOracles",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_bytes32,t_array(t_address)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:15"
+            },
+            {
+              "label": "txHashToMerkleRoot",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bytes32)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:16"
+            },
+            {
+              "label": "txHashToLeaves",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_bytes32,t_array(t_bytes32)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:17"
+            },
+            {
+              "label": "trustedOracles",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:19"
+            },
+            {
+              "label": "oraclesAmount",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_uint256",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:26"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_address)dyn_storage": {
+              "label": "address[]",
+              "numberOfBytes": "32"
+            },
+            "t_array(t_bytes32)dyn_storage": {
+              "label": "bytes32[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_struct(OracleSubmissionData)399_storage)": {
+              "label": "mapping(address => struct OracleDepositStorage.OracleSubmissionData)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_address)dyn_storage)": {
+              "label": "mapping(bytes32 => address[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_bytes32)dyn_storage)": {
+              "label": "mapping(bytes32 => bytes32[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bytes32)": {
+              "label": "mapping(bytes32 => bytes32)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)399_storage))": {
+              "label": "mapping(bytes32 => mapping(address => struct OracleDepositStorage.OracleSubmissionData))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_uint256)": {
+              "label": "mapping(bytes32 => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(OracleSubmissionData)399_storage": {
+              "label": "struct OracleDepositStorage.OracleSubmissionData",
+              "members": [
+                {
+                  "label": "merkleRoot",
+                  "type": "t_bytes32",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "leaves",
+                  "type": "t_array(t_bytes32)dyn_storage",
+                  "offset": 0,
+                  "slot": "1"
+                }
+              ],
+              "numberOfBytes": "64"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/interfaces/IHandler.sol:IHandler": {
+        "src": "contracts/interfaces/IHandler.sol:8",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "deposit(address,address,uint256)",
+          "withdraw(uint256,address,address)",
+          "setResource(address,bool,bool)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "hardhat/console.sol:console": {
+        "src": "hardhat/console.sol:4",
+        "version": {
+          "withMetadata": "b1be11c3bf90cff557541588c2ae5cd66dca02f69e0972ceeb9da182ee9131c5",
+          "withoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db",
+          "linkedWithoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      }
+    },
+    {
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/Bridge.sol:Bridge": {
+        "src": "contracts/Bridge.sol:9",
+        "version": {
+          "withMetadata": "7c295ced558e7bc2f1264fb6c1ff07338c7d77faddded831ac7cab7fe56ac60c",
+          "withoutMetadata": "6d72113751122c4d86bffb28d6287297cc43134254e539ccec7fee881981e091",
+          "linkedWithoutMetadata": "6d72113751122c4d86bffb28d6287297cc43134254e539ccec7fee881981e091"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "(address)",
+          "depositTokens(address,address,uint256)",
+          "receiveTokens(bytes32,address,address,uint256,bytes32[])",
+          "setHandler(address)",
+          "setValidator(address)",
+          "setToken(address,bool,bool)",
+          "()"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Bridge",
+            "src": "contracts/Bridge.sol:27"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "validatorstNonce",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_uint256",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:11"
+            },
+            {
+              "label": "erc20Handler",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_address",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:12"
+            },
+            {
+              "label": "validators",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:13"
+            },
+            {
+              "label": "processedTransactions",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bool)",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:14"
+            },
+            {
+              "label": "oracleDepositStorage",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_contract(OracleDepositStorage)776",
+              "contract": "Bridge",
+              "src": "contracts/Bridge.sol:16"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_contract(OracleDepositStorage)776": {
+              "label": "contract OracleDepositStorage",
+              "numberOfBytes": "20"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bool)": {
+              "label": "mapping(bytes32 => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/OracleDepositStorage.sol:OracleDepositStorage": {
+        "src": "contracts/OracleDepositStorage.sol:6",
+        "version": {
+          "withMetadata": "037c722b4b5be33eec973cf6a0e8bfe5dbcadcf4a35caa51e3780e01b914d400",
+          "withoutMetadata": "f60b247b69ffb1e8d0043dd5edcd1a567619f8e8a8a46e7d334c3950041ce4ed",
+          "linkedWithoutMetadata": "f60b247b69ffb1e8d0043dd5edcd1a567619f8e8a8a46e7d334c3950041ce4ed"
+        },
+        "inherit": [
+          "@openzeppelin/contracts/access/Ownable.sol:Ownable",
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "()",
+          "addTrustedOracle(address)",
+          "removeTrustedOracle(address)",
+          "submitDepositHeader(bytes32,bytes32,bytes32)",
+          "getMerkleRootByTxHash(bytes32)",
+          "verifyMerkleProof(bytes32[],bytes32)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "OracleDepositStorage",
+            "src": "contracts/OracleDepositStorage.sol:30"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            },
+            {
+              "label": "oracleSubmissionsData",
+              "offset": 0,
+              "slot": "1",
+              "type": "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)394_storage))",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:12"
+            },
+            {
+              "label": "depositSubmissions",
+              "offset": 0,
+              "slot": "2",
+              "type": "t_mapping(t_bytes32,t_uint256)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:13"
+            },
+            {
+              "label": "submittingOracles",
+              "offset": 0,
+              "slot": "3",
+              "type": "t_mapping(t_bytes32,t_array(t_address)dyn_storage)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:14"
+            },
+            {
+              "label": "txHashToMerkleRoot",
+              "offset": 0,
+              "slot": "4",
+              "type": "t_mapping(t_bytes32,t_bytes32)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:15"
+            },
+            {
+              "label": "txHashToLeaf",
+              "offset": 0,
+              "slot": "5",
+              "type": "t_mapping(t_bytes32,t_bytes32)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:16"
+            },
+            {
+              "label": "trustedOracles",
+              "offset": 0,
+              "slot": "6",
+              "type": "t_mapping(t_address,t_bool)",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:18"
+            },
+            {
+              "label": "oraclesAmount",
+              "offset": 0,
+              "slot": "7",
+              "type": "t_uint256",
+              "contract": "OracleDepositStorage",
+              "src": "contracts/OracleDepositStorage.sol:25"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            },
+            "t_array(t_address)dyn_storage": {
+              "label": "address[]",
+              "numberOfBytes": "32"
+            },
+            "t_bool": {
+              "label": "bool",
+              "numberOfBytes": "1"
+            },
+            "t_bytes32": {
+              "label": "bytes32",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_bool)": {
+              "label": "mapping(address => bool)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_address,t_struct(OracleSubmissionData)394_storage)": {
+              "label": "mapping(address => struct OracleDepositStorage.OracleSubmissionData)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_array(t_address)dyn_storage)": {
+              "label": "mapping(bytes32 => address[])",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_bytes32)": {
+              "label": "mapping(bytes32 => bytes32)",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_mapping(t_address,t_struct(OracleSubmissionData)394_storage))": {
+              "label": "mapping(bytes32 => mapping(address => struct OracleDepositStorage.OracleSubmissionData))",
+              "numberOfBytes": "32"
+            },
+            "t_mapping(t_bytes32,t_uint256)": {
+              "label": "mapping(bytes32 => uint256)",
+              "numberOfBytes": "32"
+            },
+            "t_struct(OracleSubmissionData)394_storage": {
+              "label": "struct OracleDepositStorage.OracleSubmissionData",
+              "members": [
+                {
+                  "label": "merkleRoot",
+                  "type": "t_bytes32",
+                  "offset": 0,
+                  "slot": "0"
+                },
+                {
+                  "label": "leaf",
+                  "type": "t_bytes32",
+                  "offset": 0,
+                  "slot": "1"
+                }
+              ],
+              "numberOfBytes": "64"
+            },
+            "t_uint256": {
+              "label": "uint256",
+              "numberOfBytes": "32"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/interfaces/IHandler.sol:IHandler": {
+        "src": "contracts/interfaces/IHandler.sol:8",
+        "inherit": [],
+        "libraries": [],
+        "methods": [
+          "deposit(address,address,uint256)",
+          "withdraw(uint256,address,address)",
+          "setResource(address,bool,bool)"
+        ],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "hardhat/console.sol:console": {
+        "src": "hardhat/console.sol:4",
+        "version": {
+          "withMetadata": "b1be11c3bf90cff557541588c2ae5cd66dca02f69e0972ceeb9da182ee9131c5",
+          "withoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db",
+          "linkedWithoutMetadata": "a64c6cf9c6ba9368f5132c93a0196b3204a7963dbb4dd05dfddb4ab23126b8db"
+        },
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      }
+    },
+    {
+      "@openzeppelin/contracts/access/Ownable.sol:Ownable": {
+        "src": "@openzeppelin/contracts/access/Ownable.sol:20",
+        "inherit": [
+          "@openzeppelin/contracts/utils/Context.sol:Context"
+        ],
+        "libraries": [],
+        "methods": [
+          "owner()",
+          "renounceOwnership()",
+          "transferOwnership(address)"
+        ],
+        "linkReferences": [],
+        "errors": [
+          {
+            "kind": "constructor",
+            "contract": "Ownable",
+            "src": "@openzeppelin/contracts/access/Ownable.sol:38"
+          }
+        ],
+        "layout": {
+          "storage": [
+            {
+              "label": "_owner",
+              "offset": 0,
+              "slot": "0",
+              "type": "t_address",
+              "contract": "Ownable",
+              "src": "@openzeppelin/contracts/access/Ownable.sol:21"
+            }
+          ],
+          "types": {
+            "t_address": {
+              "label": "address",
+              "numberOfBytes": "20"
+            }
+          },
+          "layoutVersion": "1.2",
+          "flat": true,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "@openzeppelin/contracts/utils/Context.sol:Context": {
+        "src": "@openzeppelin/contracts/utils/Context.sol:16",
+        "inherit": [],
+        "libraries": [],
+        "methods": [],
+        "linkReferences": [],
+        "errors": [],
+        "layout": {
+          "storage": [],
+          "types": {},
+          "layoutVersion": "1.2",
+          "flat": false,
+          "namespaces": {}
+        },
+        "solcVersion": "0.8.20"
+      },
+      "contracts/Bridge.sol:Bridge": {
+        "src": "contracts/Bridge.sol:9",
+        "version": {
           "withMetadata": "4e5ccbdb40d72165a741d011083372fbcdefd7fe4cf38654e8d7034e1d62b8a6",
           "withoutMetadata": "6d72113751122c4d86bffb28d6287297cc43134254e539ccec7fee881981e091",
           "linkedWithoutMetadata": "6d72113751122c4d86bffb28d6287297cc43134254e539ccec7fee881981e091"

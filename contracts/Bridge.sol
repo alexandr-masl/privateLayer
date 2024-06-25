@@ -52,11 +52,11 @@ contract Bridge is Ownable {
         address _recipient,
         address _tokenAddress,
         uint256 _amount,
+        bytes32 _leaf,
         bytes32[] calldata _proof
     ) external {
         require(!processedTransactions[_txHash], "Transaction is processed");
-
-        require(oracleDepositStorage.verifyMerkleProof(_proof, _txHash), "Invalid Merkle proof");
+        require(oracleDepositStorage.verifyMerkleProof(_proof, _txHash, _leaf), "Invalid Merkle proof");
 
         processedTransactions[_txHash] = true;
 

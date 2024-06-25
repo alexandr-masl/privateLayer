@@ -4,7 +4,6 @@ const fs = require('fs');
 const { Bridge_address, Router_Chain_1_RPC, OracleDepositStorage_address } = require('../../scripts/deploySettings.json');
 const colors = require('colors');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi;
-const oracleDepositStorageAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/OracleDepositStorage.sol/OracleDepositStorage.json')).abi;
 const keccak256 = require('keccak256');
 const { MerkleTree } = require('merkletreejs');
 const web3 = require('web3');
@@ -19,55 +18,68 @@ const validatorWallet1 = new ethers.Wallet("0x59c6995e998f97a5a0044966f0945389dc
 
 async function main() {
   try {
-    const bridgeContract = new ethers.Contract(chain1ContractAddress, bridgeAbi, validatorWallet1);
-    const oracleContract = new ethers.Contract(oracleDepositStorageAddress, oracleDepositStorageAbi, validatorWallet1);
+    const bridgeContract = new ethers.Contract(chain1ContractAddress, JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi, validatorWallet1);
+    const oracleContract = new ethers.Contract(oracleDepositStorageAddress, JSON.parse(fs.readFileSync('./artifacts/contracts/OracleDepositStorage.sol/OracleDepositStorage.json')).abi, validatorWallet1);
 
     console.log(colors.green('Listening for events on Chain 1...'));
 
     bridgeContract.on('Deposit', async (tokenAddress, depositor, amount, event) => {
+
       const txHash = event.log.transactionHash;
       console.log(colors.yellow(`\n\nDeposit from Chain 1 detected: tokenAddress=${tokenAddress}, depositor=${depositor}, amount=${amount}, txHash=${txHash}`));
       console.log(`Validator:`, validatorWallet1.address);
 
       try {
-        const transaction = await provider1.getTransaction(txHash);
-        console.log("Transaction data:", transaction);
-
-        const iface = new ethers.Interface(bridgeAbi);
-        const decodedData = iface.parseTransaction({ data: transaction.data });
-        console.log("Decoded transaction data:", decodedData);
-
         // Wait for the transaction to be confirmed
         console.log(colors.blue(`Waiting for ${confirmationsRequired} confirmations...`));
         // await waitForConfirmations(txHash, confirmationsRequired);
         console.log(colors.blue(`Transaction confirmed with ${confirmationsRequired} confirmations.`));
 
-        // Generate Merkle proof
-        const leaf = keccak256(web3.eth.abi.encodeParameters(['address', 'address', 'uint256'], [tokenAddress, depositor, amount]));
-        const tree = new MerkleTree([leaf], keccak256, { sortPairs: true });
+        // Generate Merkle proof with correct depositor address
+        const dataArray = [
+          { tokenAddress, depositor, amount: amount.toString() }
+          // Add more transactions if needed
+        ];
+
+        const leafNodes = dataArray.map(data => keccak256(web3.eth.abi.encodeParameters(['address', 'address', 'uint256'], [data.tokenAddress, data.depositor, data.amount])));
+        const tree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
         const root = tree.getRoot();
 
-        console.log("----------- ROOOOOOT");
-        console.log(root);
-
-        const tx = await oracleContract.submitDepositHeader(txHash, root, leaf);
+        const tx = await oracleContract.submitDepositHeader(txHash, root, leafNodes);
         await tx.wait();
         console.log(colors.green(`Merkle root submitted for verification.`));
 
         // Verify the Merkle proof
-        const proof = tree.getProof(leaf).map(x => x.data);
+        const proof = tree.getProof(leafNodes[0]).map(x => x.data);
 
-        const isValidStoredProof = await oracleContract.verifyMerkleProof(proof, txHash);
+        // ----------------------------------------------- VALIDATOR NODE
+
+        const transaction = await provider1.getTransaction(txHash);
+        const iface = new ethers.Interface(bridgeAbi);
+        const decodedData = iface.parseTransaction({ data: transaction.data });
+        console.log("Decoded transaction data:", decodedData);
+
+        const TOKEN_ADDRESS = decodedData.args[0];
+        const DEPOSITOR = decodedData.args[1];
+        const AMOUNT = decodedData.args[2]; 
+
+        // Ensure to use the same leaf generation
+        const leafFromTxData = keccak256(web3.eth.abi.encodeParameters(['address', 'address', 'uint256'], [TOKEN_ADDRESS, DEPOSITOR, AMOUNT]));
+        const treeFromTxData = new MerkleTree([leafFromTxData], keccak256, { sortPairs: true });
+        const proofFromTxData = treeFromTxData.getProof(leafFromTxData).map(x => x.data);
+
+        const isValidStoredProof = await oracleContract.verifyMerkleProof(proofFromTxData, txHash, leafFromTxData);
         console.log(colors.green(`Merkle Stored Proof is valid: ${isValidStoredProof}`));
 
         if (isValidStoredProof) {
           // Call receiveTokens on the Bridge contract
           const receiveTx = await bridgeContract.receiveTokens(
             txHash,
-            depositor,
-            tokenAddress,
-            amount,
-            proof
+            DEPOSITOR,
+            TOKEN_ADDRESS,
+            AMOUNT, // Pass the BigNumber directly
+            leafFromTxData,
+            proofFromTxData
           );
           await receiveTx.wait();
           console.log(colors.green(`Tokens received and verified on the Bridge contract.`));

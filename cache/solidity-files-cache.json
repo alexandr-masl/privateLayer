@@ -1163,8 +1163,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/Bridge.sol": {
-      "lastModificationDate": 1719337192219,
-      "contentHash": "e3a05eab6b01ab435596d25c9262ec41",
+      "lastModificationDate": 1719346538339,
+      "contentHash": "5569a03ac4c5511a1fb6243154d34653",
       "sourceName": "contracts/Bridge.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1205,8 +1205,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/OracleDepositStorage.sol": {
-      "lastModificationDate": 1719337965531,
-      "contentHash": "f8830ae9647f946168b89468dacd9a50",
+      "lastModificationDate": 1719346530379,
+      "contentHash": "02f1c1b07a6973c1f2f1f7d990085e50",
       "sourceName": "contracts/OracleDepositStorage.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1234,7 +1234,8 @@
         }
       },
       "imports": [
-        "@openzeppelin/contracts/access/Ownable.sol"
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "hardhat/console.sol"
       ],
       "versionPragmas": [
         "^0.8.20"
