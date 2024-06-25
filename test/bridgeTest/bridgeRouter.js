@@ -56,13 +56,11 @@ async function main() {
 
         // Verify the Merkle proof
         const proof = tree.getProof(leaf).map(x => x.data);
-        const isValid = await oracleContract.verifyMerkleProof(proof, root, leaf);
-        console.log(colors.green(`Merkle Proof is valid: ${isValid}`));
 
-        const isValidStoredProof = await oracleContract.verifyStoredMerkleProof(proof, txHash);
+        const isValidStoredProof = await oracleContract.verifyMerkleProof(proof, txHash);
         console.log(colors.green(`Merkle Stored Proof is valid: ${isValidStoredProof}`));
 
-        if (isValid) {
+        if (isValidStoredProof) {
           // Call receiveTokens on the Bridge contract
           const receiveTx = await bridgeContract.receiveTokens(
             txHash,

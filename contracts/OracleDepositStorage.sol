@@ -90,11 +90,11 @@ contract OracleDepositStorage is Ownable {
         return txHashToMerkleRoot[_txHash];
     }
 
-    function verifyMerkleProof(
+    function _verifyMerkleProof(
         bytes32[] memory proof,
         bytes32 root,
         bytes32 leaf
-    ) public pure returns (bool) {
+    ) private pure returns (bool) {
         bytes32 computedHash = leaf;
 
         for (uint256 i = 0; i < proof.length; i++) {
@@ -110,13 +110,16 @@ contract OracleDepositStorage is Ownable {
         return computedHash == root;
     }
 
-    function verifyStoredMerkleProof(
+    function verifyMerkleProof(
         bytes32[] memory proof,
         bytes32 txHash
     ) public view returns (bool) {
+        // Ensure the txHash exists in the mapping
+        require(txHashToMerkleRoot[txHash] != bytes32(0), "Transaction hash does not exist");
+
         bytes32 root = txHashToMerkleRoot[txHash];
         bytes32 leaf = txHashToLeaf[txHash];
 
-        return verifyMerkleProof(proof, root, leaf);
+        return _verifyMerkleProof(proof, root, leaf);
     }
 }
