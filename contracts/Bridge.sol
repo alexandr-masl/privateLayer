@@ -7,21 +7,10 @@ import "hardhat/console.sol";
 
 contract Bridge is Ownable {
 
-    struct Proposal {
-        bool executed;
-        uint validationsNonce;
-        address token;
-        uint amount; 
-        uint  withdrawNonce; 
-        address user;
-    }
-
-    address public mainValidator;
-    uint public depositNonce;
     uint public validatorstNonce;
     address public erc20Handler;
     mapping(address => bool) validators;
-    mapping(uint => Proposal) proposals;
+    mapping(bytes32 => bool) processedTransactions;
 
     modifier onlyValidator() {
         _onlyValidator();
@@ -40,20 +29,12 @@ contract Bridge is Ownable {
         uint amount
     );
 
-    event Withdraw(
-        address tokenAddress,
-        address recipient,
-        uint amount
-    );
-
     function depositTokens(
         address tokenAddress,
         address depositor,
         uint256 amount
     ) external payable {
         require(msg.value > 0, "value of validator reward is too low");
-
-        depositNonce++;
 
         IHandler depositHandler = IHandler(erc20Handler);
         depositHandler.deposit(tokenAddress, msg.sender, amount);
@@ -62,7 +43,8 @@ contract Bridge is Ownable {
     }
 
     function receiveTokens(bytes32 _txHash) external onlyValidator() { 
-
+        require(!processedTransactions[_txHash], "Transaction is processed");
+        
     }
 
     function setHandler(address _handler) external onlyOwner {
