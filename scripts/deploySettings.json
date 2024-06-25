@@ -7,6 +7,6 @@
     "Private_FRAX_Token_Address": "0x9A569a6904E342D37ea77c2dE0adFc0ee4619cd9",
     "Router_Chain_1_RPC": "http://127.0.0.1:8545",
     "Router_Chain_2_RPC": "http://195.7.7.76:9650/ext/bc/k1Y3356wMav8d9pVMyY8NchuFhxBpYxjS7zjZrc4dMkvSqxwS/rpc",
-    "Bridge_address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
-    "OracleDepositStorage_address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44"
+    "Bridge_address": "0x5bf5b11053e734690269C6B9D438F8C9d48F528A",
+    "OracleDepositStorage_address": "0x3347B4d90ebe72BeFb30444C9966B2B990aE9FcB"
 }

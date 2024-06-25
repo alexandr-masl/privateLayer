@@ -68,6 +68,8 @@ async function main() {
         const treeFromTxData = new MerkleTree([leafFromTxData], keccak256, { sortPairs: true });
         const proofFromTxData = treeFromTxData.getProof(leafFromTxData).map(x => x.data);
 
+        console.log(":::::::::::Generated leaf in JavaScript:", leafFromTxData.toString('hex'));
+
         const isValidStoredProof = await oracleContract.verifyMerkleProof(proofFromTxData, txHash, leafFromTxData);
         console.log(colors.green(`Merkle Stored Proof is valid: ${isValidStoredProof}`));
 
@@ -77,7 +79,7 @@ async function main() {
             txHash,
             DEPOSITOR,
             TOKEN_ADDRESS,
-            AMOUNT, // Pass the BigNumber directly
+            AMOUNT,
             leafFromTxData,
             proofFromTxData
           );

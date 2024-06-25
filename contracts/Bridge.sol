@@ -47,7 +47,7 @@ contract Bridge is Ownable {
         emit Deposit(tokenAddress, depositor, amount);
     }
 
-    function receiveTokens(
+   function receiveTokens(
         bytes32 _txHash,
         address _recipient,
         address _tokenAddress,
@@ -56,7 +56,14 @@ contract Bridge is Ownable {
         bytes32[] calldata _proof
     ) external {
         require(!processedTransactions[_txHash], "Transaction is processed");
-        require(oracleDepositStorage.verifyMerkleProof(_proof, _txHash, _leaf), "Invalid Merkle proof");
+        require(oracleDepositStorage.verifyMerkleProof(_proof, _txHash, _leaf), "Invalid proof");
+
+        // Generate the leaf from the passed parameters
+        bytes32 generatedLeaf = keccak256(abi.encode(_tokenAddress, _recipient, _amount));
+        // Verify the generated leaf matches the passed leaf
+        require(generatedLeaf == _leaf, "Leaf does not match");
+
+        
 
         processedTransactions[_txHash] = true;
 

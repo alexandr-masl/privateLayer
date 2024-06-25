@@ -1163,8 +1163,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/Bridge.sol": {
-      "lastModificationDate": 1719346538339,
-      "contentHash": "5569a03ac4c5511a1fb6243154d34653",
+      "lastModificationDate": 1719348945363,
+      "contentHash": "90727ef63e5f224d1d0217c8d90abf96",
       "sourceName": "contracts/Bridge.sol",
       "solcConfig": {
         "version": "0.8.20",
