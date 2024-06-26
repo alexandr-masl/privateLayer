@@ -3,7 +3,7 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-const { Bridge_address, WETH } = require('./bridgeConfig.json');
+const { Bridge, WETH } = require('./bridgeConfig.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi;
 
 
@@ -22,7 +22,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
         ], WETH.network1);
 
         bridgeContract = new ethers.Contract(
-            Bridge_address, 
+            Bridge.network1, 
             bridgeAbi, 
             deployer
         );

@@ -2,7 +2,7 @@ require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const colors = require('colors');
-const { Validator1_Address, Oracle1_Address, WETH, FRAX } = require('./bridgeConfig.json');
+const { Validator1_Address, Oracle1_Address } = require('./bridgeConfig.json');
 
 
 describe("Bridge Contract Deployment and Interaction", function () {
@@ -52,22 +52,6 @@ describe("Bridge Contract Deployment and Interaction", function () {
         console.log(colors.white(`:::::::: Handler address at bridge: ${handler}`));
     });
 
-    it("should set wETH in ERC20Handler", async function () {
-
-        const setToken = await bridge.connect(deployer).setToken(WETH.network1, false, true, WETH.network2);
-        const setTokenTxReceipt = await setToken.wait();
-        console.log(colors.white(`:::::::: setTokenTxReceipt:`));
-        // console.log(setTokenTxReceipt);
-    });
-
-    it("should set FRAX in ERC20Handler", async function () {
-
-        const setToken = await bridge.connect(deployer).setToken(FRAX.network1, false, true, FRAX.network2);
-        const setTokenTxReceipt = await setToken.wait();
-        console.log(colors.white(`:::::::: setTokenTxReceipt:`));
-        // console.log(setTokenTxReceipt);
-    });
-
     it("should set Validator in Bridge", async function () {
 
         console.log(colors.white(`:::::::: Validator 1 address: ${Validator1_Address}`));
@@ -77,5 +61,4 @@ describe("Bridge Contract Deployment and Interaction", function () {
         console.log(colors.white(`:::::::: setValidatorTxReceipt:`));
         // console.log(setValidatorTxReceipt);
     });
-
 });

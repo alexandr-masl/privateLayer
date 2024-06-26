@@ -1041,8 +1041,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/Token.sol": {
-      "lastModificationDate": 1717703202969,
-      "contentHash": "669102a42ab071cae5be4fbb260cc47b",
+      "lastModificationDate": 1719408660572,
+      "contentHash": "2c026f39ad9b7c5a8a049f42b0fea3e5",
       "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1081,7 +1081,7 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/Bridge.sol": {
-      "lastModificationDate": 1719398332340,
+      "lastModificationDate": 1719399569658,
       "contentHash": "610a6936be24de0994694c1d98ef8ab0",
       "sourceName": "contracts/Bridge.sol",
       "solcConfig": {
@@ -1123,8 +1123,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/OracleDepositStorage.sol": {
-      "lastModificationDate": 1719346530379,
-      "contentHash": "02f1c1b07a6973c1f2f1f7d990085e50",
+      "lastModificationDate": 1719405394161,
+      "contentHash": "553c4e6ddfa97f59ce96cfa6ae88e5b5",
       "sourceName": "contracts/OracleDepositStorage.sol",
       "solcConfig": {
         "version": "0.8.20",

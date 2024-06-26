@@ -1,30 +1,35 @@
 require('dotenv').config();
 const { ethers } = require("hardhat");
 const fs = require('fs');
-const { BridgeAddress, Chain1_RPC, OracleDepositStorageAddress, TestValidatorKey, DepositEvent } = require('./nodesConfig.json');
+const { Bridge, Chain1_RPC, Chain2_RPC, OracleDepositStorageAddress, TestValidatorKey, DepositEvent } = require('./nodesConfig.json');
 const colors = require('colors');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi;
 const keccak256 = require('keccak256');
 const { MerkleTree } = require('merkletreejs');
 const web3 = require('web3');
 const chain1RpcUrl = Chain1_RPC;
-const chain1ContractAddress = BridgeAddress;
+const chain2RpcUrl = Chain2_RPC;
 const oracleDepositStorageAddress = OracleDepositStorageAddress;
 const confirmationsRequired = 12;
 const provider1 = new ethers.JsonRpcProvider(chain1RpcUrl);
+const provider2 = new ethers.JsonRpcProvider(chain2RpcUrl);
 
 // VALIDATOR TO BE USED
 const validatorWallet1 = new ethers.Wallet(TestValidatorKey, provider1);
+const validator_2 = new ethers.Wallet(TestValidatorKey, provider2);
 
 
 async function main() {
   try {
-    const bridgeContract = new ethers.Contract(chain1ContractAddress, JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi, validatorWallet1);
+    const bridge_1 = new ethers.Contract(Bridge.network1, JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi, validatorWallet1);
+    const bridge_2 = new ethers.Contract(Bridge.network2, JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi, validatorWallet1);
+
     const oracleContract = new ethers.Contract(oracleDepositStorageAddress, JSON.parse(fs.readFileSync('./artifacts/contracts/OracleDepositStorage.sol/OracleDepositStorage.json')).abi, validatorWallet1);
+
 
     console.log(colors.green('Listening for events on Chain 1...'));
 
-    bridgeContract.on(DepositEvent, async (tokenAddress, depositor, amount, event) => {
+    bridge_1.on(DepositEvent, async (tokenAddress, depositor, amount, event) => {
 
       const txHash = event.log.transactionHash;
       console.log(colors.yellow(`\n\nDeposit from Chain 1 detected: tokenAddress=${tokenAddress}, depositor=${depositor}, amount=${amount}, txHash=${txHash}`));
@@ -88,7 +93,7 @@ async function main() {
 
         if (isValidStoredProof) {
           // Call receiveTokens on the Bridge contract
-          const receiveTx = await bridgeContract.receiveTokens(
+          const receiveTx = await bridge_1.receiveTokens(
             txHash,
             DEPOSITOR,
             TOKEN_ADDRESS,
