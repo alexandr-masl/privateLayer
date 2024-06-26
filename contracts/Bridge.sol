@@ -8,12 +8,14 @@ import "hardhat/console.sol";
 
 contract Bridge is Ownable {
 
-    uint public validatorstNonce;
+    uint public validatorsAmount;
     address public erc20Handler;
     mapping(address => bool) validators;
     mapping(bytes32 => bool) processedTransactions;
 
     OracleDepositStorage oracleDepositStorage;
+    mapping(bytes32 => uint) public receiveSubmissions;
+    mapping(address => address) public tokenToReceive;
 
     modifier onlyValidator() {
         _onlyValidator();
@@ -34,6 +36,12 @@ contract Bridge is Ownable {
         uint amount
     );
 
+    event Received(
+        address tokenAddress,
+        address depositor,
+        uint amount
+    );
+
     function depositTokens(
         address tokenAddress,
         address depositor,
@@ -47,27 +55,45 @@ contract Bridge is Ownable {
         emit Deposit(tokenAddress, depositor, amount);
     }
 
-   function receiveTokens(
+    function receiveTokens(
         bytes32 _txHash,
         address _recipient,
-        address _tokenAddress,
+        address _token,
         uint256 _amount,
         bytes32 _leaf,
         bytes32[] calldata _proof
-    ) external {
+    ) external onlyValidator {
+
         require(!processedTransactions[_txHash], "Transaction is processed");
         require(oracleDepositStorage.verifyMerkleProof(_proof, _txHash, _leaf), "Invalid proof");
 
         // Generate the leaf from the passed parameters
-        bytes32 generatedLeaf = keccak256(abi.encode(_tokenAddress, _recipient, _amount));
+        bytes32 generatedLeaf = keccak256(abi.encode(_token, _recipient, _amount));
         // Verify the generated leaf matches the passed leaf
         require(generatedLeaf == _leaf, "Leaf does not match");
 
+        address _tokenToReceive = tokenToReceive[_token];
+        require((_tokenToReceive != address(0)), "Unknown Token");
+
+        receiveSubmissions[_txHash]++;
+        uint threshold = (validatorsAmount * 77) / 100;
+
+        if (receiveSubmissions[_txHash] >= threshold) { 
+            processedTransactions[_txHash] = true;
+            processReceiveTokens(_token, _recipient, _amount);
+        }
+    }
+
+    function processReceiveTokens(
+        address _token,
+        address _recipient,
+        uint256 _amount
+    ) internal {
         
+        IHandler depositHandler = IHandler(erc20Handler);
+        (address returnedTokenAddress, address returnedRecipient, uint256 returnedAmount) = depositHandler.withdraw(_amount, _token, _recipient);
 
-        processedTransactions[_txHash] = true;
-
-        // Process the token transfer (e.g., mint tokens on the destination chain)
+        emit Received(returnedTokenAddress, returnedRecipient, returnedAmount);
     }
 
     function setHandler(address _handler) external onlyOwner {
@@ -75,12 +101,16 @@ contract Bridge is Ownable {
     }
 
     function setValidator(address _validator) external onlyOwner {
-        validatorstNonce++;
+        validatorsAmount++;
         validators[_validator] = true;
     }
 
-    function setToken(address _token, bool _isBurnable, bool _isWhitelisted) external onlyOwner {
+    function setToken(address _token, bool _isBurnable, bool _isWhitelisted, address _pair) external onlyOwner {
         IHandler depositHandler = IHandler(erc20Handler);
+
+        // TODO: move it to the Handler
+        tokenToReceive[_pair] = _token;
+
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
     }
 

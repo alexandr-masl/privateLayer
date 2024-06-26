@@ -2,6 +2,8 @@ require('dotenv').config();
 require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const colors = require('colors');
+const { Validator1_Address, Oracle1_Address, WETH, FRAX } = require('./bridgeConfig.json');
+
 
 describe("Bridge Contract Deployment and Interaction", function () {
     let deployer, bridge, ercHandler, oracleDepositStorage;
@@ -19,11 +21,9 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
     it("should set Trusted Oracle in OracleDepositStorage", async function () {
 
-        const validatorAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+        console.log(colors.white(`:::::::: Oracle 1 address: ${Oracle1_Address}`));
 
-        console.log(colors.white(`:::::::: Oracle 1 address: ${validatorAddress}`));
-
-        const setOracle = await oracleDepositStorage.connect(deployer).addTrustedOracle(validatorAddress);
+        const setOracle = await oracleDepositStorage.connect(deployer).addTrustedOracle(Oracle1_Address);
         const setOracleTxReceipt = await setOracle.wait();
         console.log(colors.white(`:::::::: setOracleTxReceipt:`));
         // console.log(setValidatorTxReceipt);
@@ -54,9 +54,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
     it("should set wETH in ERC20Handler", async function () {
 
-        const wETH_address = '0xFC00000000000000000000000000000000000006';
-
-        const setToken = await bridge.connect(deployer).setToken(wETH_address, false, true);
+        const setToken = await bridge.connect(deployer).setToken(WETH.network1, false, true, WETH.network2);
         const setTokenTxReceipt = await setToken.wait();
         console.log(colors.white(`:::::::: setTokenTxReceipt:`));
         // console.log(setTokenTxReceipt);
@@ -64,9 +62,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
     it("should set FRAX in ERC20Handler", async function () {
 
-        const FRAX_address = '0xFc00000000000000000000000000000000000001';
-
-        const setToken = await bridge.connect(deployer).setToken(FRAX_address, false, true);
+        const setToken = await bridge.connect(deployer).setToken(FRAX.network1, false, true, FRAX.network2);
         const setTokenTxReceipt = await setToken.wait();
         console.log(colors.white(`:::::::: setTokenTxReceipt:`));
         // console.log(setTokenTxReceipt);
@@ -74,11 +70,9 @@ describe("Bridge Contract Deployment and Interaction", function () {
 
     it("should set Validator in Bridge", async function () {
 
-        const validator= new ethers.Wallet(process.env.Validator_1);
+        console.log(colors.white(`:::::::: Validator 1 address: ${Validator1_Address}`));
 
-        console.log(colors.white(`:::::::: Validator 1 address: ${validator.address}`));
-
-        const setValidator = await bridge.connect(deployer).setValidator(validator.address);
+        const setValidator = await bridge.connect(deployer).setValidator(Validator1_Address);
         const setValidatorTxReceipt = await setValidator.wait();
         console.log(colors.white(`:::::::: setValidatorTxReceipt:`));
         // console.log(setValidatorTxReceipt);

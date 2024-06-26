@@ -7,14 +7,13 @@ const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/B
 const keccak256 = require('keccak256');
 const { MerkleTree } = require('merkletreejs');
 const web3 = require('web3');
-
 const chain1RpcUrl = Router_Chain_1_RPC;
 const chain1ContractAddress = Bridge_address;
 const oracleDepositStorageAddress = OracleDepositStorage_address;
-const confirmationsRequired = 12; // Number of confirmations to wait for
-
+const confirmationsRequired = 12;
 const provider1 = new ethers.JsonRpcProvider(chain1RpcUrl);
 const validatorWallet1 = new ethers.Wallet("0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider1);
+
 
 async function main() {
   try {
@@ -38,7 +37,6 @@ async function main() {
         // Generate Merkle proof with correct depositor address
         const dataArray = [
           { tokenAddress, depositor, amount: amount.toString() }
-          // Add more transactions if needed
         ];
 
         const leafNodes = dataArray.map(data => keccak256(web3.eth.abi.encodeParameters(['address', 'address', 'uint256'], [data.tokenAddress, data.depositor, data.amount])));
@@ -50,7 +48,7 @@ async function main() {
         console.log(colors.green(`Merkle root submitted for verification.`));
 
         // Verify the Merkle proof
-        const proof = tree.getProof(leafNodes[0]).map(x => x.data);
+        // const proof = tree.getProof(leafNodes[0]).map(x => x.data);
 
         // ----------------------------------------------- VALIDATOR NODE
 
@@ -73,6 +71,19 @@ async function main() {
         const isValidStoredProof = await oracleContract.verifyMerkleProof(proofFromTxData, txHash, leafFromTxData);
         console.log(colors.green(`Merkle Stored Proof is valid: ${isValidStoredProof}`));
 
+
+        wETH = await ethers.getContractAt([
+            "function deposit() payable",
+            "function balanceOf(address) view returns (uint256)",
+            "function approve(address spender, uint256 amount) external returns (bool)",
+            "function allowance(address owner, address spender) view returns (uint256)"
+        ], TOKEN_ADDRESS);
+
+
+        const wETHbalance = await wETH.connect(validatorWallet1).balanceOf(DEPOSITOR);
+        console.log(colors.white("::::::::::: Depositor WETH Balance:"), wETHbalance)
+        
+
         if (isValidStoredProof) {
           // Call receiveTokens on the Bridge contract
           const receiveTx = await bridgeContract.receiveTokens(
@@ -88,6 +99,9 @@ async function main() {
         } else {
           console.log(colors.red(`Merkle proof verification failed.`));
         }
+
+        const wETHbalanceAFTER = await wETH.connect(validatorWallet1).balanceOf(DEPOSITOR);
+        console.log(colors.white("::::::::::: Depositor WETH Balance AFTER:"), wETHbalanceAFTER)
 
       } catch (err) {
         console.log("****** DECODE ERROR", err);

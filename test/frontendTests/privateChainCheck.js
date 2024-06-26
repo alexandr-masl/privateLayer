@@ -3,7 +3,6 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-const { expect } = require('chai');
 const { BridgeOUT_address, Private_Token_Address, Bridged_Token_Address } = require('../../scripts/deploySettings.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/BridgeOUT.sol/BridgeOUT.json')).abi;
 

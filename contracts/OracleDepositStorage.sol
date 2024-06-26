@@ -26,7 +26,7 @@ contract OracleDepositStorage is Ownable {
     uint public oraclesAmount;
 
     event OracleCompromised(bytes32 indexed txHash);
-    event DepositHeaderSubmitted(bytes32 indexed txHash, bytes32 merkleRoot);
+    event DepositHeaderSubmitted(bytes32 indexed txHash);
 
     constructor() Ownable(msg.sender) {}
 
@@ -61,7 +61,7 @@ contract OracleDepositStorage is Ownable {
             if (allOraclesSubmittedSameData(_txHash, _merkleRoot, _leaves)) {
                 txHashToMerkleRoot[_txHash] = _merkleRoot;
                 txHashToLeaves[_txHash] = _leaves;
-                emit DepositHeaderSubmitted(_txHash, _merkleRoot);
+                emit DepositHeaderSubmitted(_txHash);
             } else {
                 handleCompromisedOracle(_txHash);
             }

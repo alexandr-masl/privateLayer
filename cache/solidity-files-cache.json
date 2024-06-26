@@ -924,88 +924,6 @@
         "TickMath"
       ]
     },
-    "/Users/green/code/layer3dev/contracts/BridgeIN.sol": {
-      "lastModificationDate": 1718379284104,
-      "contentHash": "ac978074237e296d15c64c180f58fcff",
-      "sourceName": "contracts/BridgeIN.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "storageLayout"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/access/Ownable.sol",
-        "./interfaces/IHandler.sol",
-        "hardhat/console.sol"
-      ],
-      "versionPragmas": [
-        "0.8.20"
-      ],
-      "artifacts": [
-        "BridgeIN"
-      ]
-    },
-    "/Users/green/code/layer3dev/contracts/BridgeOUT.sol": {
-      "lastModificationDate": 1718387623972,
-      "contentHash": "b808cbbfc4982245de3b9224001df598",
-      "sourceName": "contracts/BridgeOUT.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 200
-          },
-          "evmVersion": "paris",
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata",
-                "storageLayout"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/access/Ownable.sol",
-        "./interfaces/IHandler.sol",
-        "hardhat/console.sol"
-      ],
-      "versionPragmas": [
-        "0.8.20"
-      ],
-      "artifacts": [
-        "BridgeOUT"
-      ]
-    },
     "/Users/green/code/layer3dev/node_modules/hardhat/console.sol": {
       "lastModificationDate": 1717322721342,
       "contentHash": "896f68942c3a20e9ae3c3c5bfd3add54",
@@ -1044,8 +962,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/ERC20Handler.sol": {
-      "lastModificationDate": 1718220547329,
-      "contentHash": "ea38ceb76fa6c650107b2d349a7fd82a",
+      "lastModificationDate": 1719398039605,
+      "contentHash": "cca87cbda111069a79cadd5913017534",
       "sourceName": "contracts/ERC20Handler.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -1163,8 +1081,8 @@
       ]
     },
     "/Users/green/code/layer3dev/contracts/Bridge.sol": {
-      "lastModificationDate": 1719348945363,
-      "contentHash": "90727ef63e5f224d1d0217c8d90abf96",
+      "lastModificationDate": 1719398332340,
+      "contentHash": "610a6936be24de0994694c1d98ef8ab0",
       "sourceName": "contracts/Bridge.sol",
       "solcConfig": {
         "version": "0.8.20",

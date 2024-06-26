@@ -39,7 +39,7 @@ contract ERC20Handler is IHandler, ERC20Safe {
         if (!tokenProperties[tokenAddress].isWhitelisted) revert ContractAddressNotWhitelisted(tokenAddress);
 
         if (tokenProperties[tokenAddress].isBurnable) {
-            mintERC20(tokenAddress, address(depositor), amount);
+            burnERC20(tokenAddress, depositor, amount);
         } else {
             lockERC20(tokenAddress, depositor, address(this), amount);
         }
@@ -56,7 +56,7 @@ contract ERC20Handler is IHandler, ERC20Safe {
         if (!tokenProperties[tokenAddress].isWhitelisted) revert ContractAddressNotWhitelisted(tokenAddress);
 
         if (tokenProperties[tokenAddress].isBurnable) {
-            burnERC20(tokenAddress, recipientAddress, amount);
+            mintERC20(tokenAddress, recipientAddress, amount);
         } else {
             releaseERC20(tokenAddress, address(recipientAddress), amount);
         }

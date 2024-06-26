@@ -1,0 +1,8 @@
+{ 
+    "Chain1_RPC": "http://127.0.0.1:8545",
+    "DepositEvent": "Deposit",
+    "Chain2_RPC": "",
+    "TestValidatorKey": "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d",
+    "BridgeAddress": "0xBEc49fA140aCaA83533fB00A2BB19bDdd0290f25",
+    "OracleDepositStorageAddress": "0x172076E0166D1F9Cc711C77Adf8488051744980C"
+}

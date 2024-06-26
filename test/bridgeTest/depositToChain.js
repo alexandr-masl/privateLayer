@@ -3,9 +3,8 @@ require('@openzeppelin/hardhat-upgrades');
 const { ethers } = require("hardhat");
 const fs = require('fs');
 const colors = require('colors');
-const { BridgeIN_address, Bridge_address } = require('../settings.json');
+const { Bridge_address, WETH } = require('./bridgeConfig.json');
 const bridgeAbi = JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi;
-const wETH_address = '0xFC00000000000000000000000000000000000006';
 
 
 describe("Bridge Contract Deployment and Interaction", function () {
@@ -20,7 +19,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
             "function balanceOf(address) view returns (uint256)",
             "function approve(address spender, uint256 amount) external returns (bool)",
             "function allowance(address owner, address spender) view returns (uint256)"
-        ], wETH_address);
+        ], WETH.network1);
 
         bridgeContract = new ethers.Contract(
             Bridge_address, 
@@ -54,7 +53,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
     });
 
 
-    it("should call deposit of the BridgeIN contract", async function () {
+    it("should call deposit of the Bridge contract", async function () {
 
         const handler = await bridgeContract.erc20Handler();
         console.log(colors.white(`:::::::: Bridge contract handler address: ${handler}`));
@@ -62,7 +61,7 @@ describe("Bridge Contract Deployment and Interaction", function () {
         const depositAmount = ethers.parseUnits('1', 18);
         const gasFee = ethers.parseUnits('0.01', 'ether'); // Example gas fee
 
-        const deposit = await bridgeContract.depositTokens(wETH_address, deployer.address, depositAmount, { value: gasFee });
+        const deposit = await bridgeContract.depositTokens(WETH.network1, deployer.address, depositAmount, { value: gasFee });
         const depositTxResult = await deposit.wait();
         // console.log(colors.white("---- depositTxResult Tx Result"));
         // console.log(depositTxResult);
