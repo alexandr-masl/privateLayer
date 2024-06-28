@@ -1,9 +1,10 @@
 ### PrivateLayer protocol
 
 
-### Project Description: PrivateLayer Blockchain with Native Bridge
+### Project Description: PrivateLayer L3 Blockchain with Native Bridge
 
-The PrivateLayer project is designed to create a private blockchain network on top of established networks such as Arbitrum or Avalanche Subnet. This private blockchain, referred to as Orbit Network by Arbitrum or as Subnet by Avalanche, facilitates the anonymous transfer of stablecoins and other tokens. The network includes a native bridge for seamless token transfers between Chain A (public network) and Chain B (private network).The goal is to offer a secure, private, and isolated environment for executing transactions and managing assets, ensuring privacy and security through multiple validation and verification layers, using the power and security of the public blockchains but isolated from public.
+The PrivateLayer project facilitates the seamless deployment of private (L3) blockchains, complete with a native bridge and customizable infrastructure and nodes. These L3 chains offer extensive flexibility, allowing the configuration of custom consensus mechanisms and node settings. Currently, PrivateLayer supports two network options for deployment: Orbit by Arbitrum and Avalanche Subnets by Avalanche. The project includes a native bridge for seamless token transfers between Chain A (public network) and Chain B (private network).The goal is to offer a secure, private, and isolated environment for executing transactions and managing assets, ensuring privacy and security through multiple validation and verification layers, using the power and security of the public blockchains but isolated from public.
+
 
 #### Key Features:
 
