@@ -1,0 +1,15 @@
+{ 
+    "Chain1_RPC": "",
+    "DepositEvent": "Deposit",
+    "DepositHeaderSubmitted": "DepositHeaderSubmitted",
+    "Chain2_RPC": "",
+    "TestValidatorKey": "",
+    "Bridge": {
+        "network1": "",
+        "network2": ""
+    },
+    "OracleDepositStorage": {
+        "network1": "",
+        "network2": ""
+    }
+}
