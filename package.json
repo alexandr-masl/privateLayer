@@ -29,8 +29,6 @@
     "typechain": "^8.3.2"
   },
   "dependencies": {
-    "@axelar-network/axelarjs-sdk": "^0.16.1",
-    "@buildwithsygma/sygma-sdk-core": "^2.10.0",
     "fs": "^0.0.1-security",
     "keccak256": "^1.0.6",
     "merkletreejs": "^0.3.11",
