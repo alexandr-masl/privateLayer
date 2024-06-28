@@ -2,46 +2,90 @@
 pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import {IHandler} from "./interfaces/IHandler.sol";
+import { IHandler } from "./interfaces/IHandler.sol";
 import { OracleDepositStorage } from "./OracleDepositStorage.sol";
 import "hardhat/console.sol";
 
 contract Bridge is Ownable {
 
+    // Number of validators
     uint public validatorsAmount;
+
+    // Address of the ERC20 handler contract
     address public erc20Handler;
+
+    // Mapping of validator addresses to boolean
     mapping(address => bool) validators;
+
+    // Mapping of processed transaction hashes to boolean
     mapping(bytes32 => bool) processedTransactions;
 
+    // Instance of OracleDepositStorage contract
     OracleDepositStorage oracleDepositStorage;
+
+    // Mapping of transaction hashes to number of receive submissions
     mapping(bytes32 => uint) public receiveSubmissions;
+
+    // Mapping of token addresses to their corresponding receive addresses
     mapping(address => address) public tokenToReceive;
 
+    /**
+     * @notice Modifier to allow only validators to call a function.
+     */
     modifier onlyValidator() {
         _onlyValidator();
         _;
     }
 
+    /**
+     * @notice Private function to check if the sender is a validator.
+     */
     function _onlyValidator() private view {
         require(validators[msg.sender], "sender must be a validator");
     }
 
+    /**
+     * @notice Initializes the contract with the address of the OracleDepositStorage.
+     * @dev The constructor sets the OracleDepositStorage contract address.
+     * @param _oracleDepositStorage The address of the OracleDepositStorage contract.
+     */
     constructor(address _oracleDepositStorage) Ownable(msg.sender) {
+        // TODO: move it to the IInterface logic
+        // TODO: add method to set the oracleDepositStorage
         oracleDepositStorage = OracleDepositStorage(_oracleDepositStorage);
     }
     
+    /**
+     * @notice Event emitted when tokens are deposited.
+     * @param tokenAddress The address of the token.
+     * @param depositor The address of the depositor.
+     * @param amount The amount of tokens deposited.
+     */
     event Deposit(
         address tokenAddress,
         address depositor,
         uint amount
     );
 
+    /**
+     * @notice Event emitted when tokens are received.
+     * @param tokenAddress The address of the token.
+     * @param depositor The address of the depositor.
+     * @param amount The amount of tokens received.
+     */
     event Received(
         address tokenAddress,
         address depositor,
         uint amount
     );
 
+    /**
+     * @notice Deposits tokens to the contract.
+     * @dev Requires a non-zero validator reward. Uses the handler to deposit tokens.
+     * @param tokenAddress The address of the token to deposit.
+     * @param depositor The address of the depositor.
+     * @param amount The amount of tokens to deposit.
+     */
     function depositTokens(
         address tokenAddress,
         address depositor,
@@ -55,6 +99,17 @@ contract Bridge is Ownable {
         emit Deposit(tokenAddress, depositor, amount);
     }
 
+    /**
+     * @notice Receives tokens from another chain.
+     * @dev Requires the sender to be a validator and the transaction to be unprocessed.
+     *      Verifies the Merkle proof and checks if the threshold of validators is reached.
+     * @param _txHash The transaction hash from the source chain.
+     * @param _recipient The address of the recipient.
+     * @param _token The address of the token.
+     * @param _amount The amount of tokens to receive.
+     * @param _leaf The leaf node in the Merkle tree.
+     * @param _proof The Merkle proof array.
+     */
     function receiveTokens(
         bytes32 _txHash,
         address _recipient,
@@ -85,6 +140,13 @@ contract Bridge is Ownable {
         }
     }
 
+    /**
+     * @notice Processes the received tokens.
+     * @dev Calls the withdraw function on the handler to process the token reception.
+     * @param _token The address of the token to process.
+     * @param _recipient The address of the recipient.
+     * @param _amount The amount of tokens to process.
+     */
     function processReceiveTokens(
         address _token,
         address _recipient,
@@ -97,15 +159,33 @@ contract Bridge is Ownable {
         emit Received(returnedTokenAddress, returnedRecipient, returnedAmount);
     }
 
+    /**
+     * @notice Sets the handler contract address.
+     * @dev Only the owner can set the handler address.
+     * @param _handler The address of the handler contract.
+     */
     function setHandler(address _handler) external onlyOwner {
         erc20Handler = _handler;
     }
 
+    /**
+     * @notice Adds a validator.
+     * @dev Only the owner can add a validator.
+     * @param _validator The address of the validator.
+     */
     function setValidator(address _validator) external onlyOwner {
         validatorsAmount++;
         validators[_validator] = true;
     }
 
+    /**
+     * @notice Sets the token properties and pairs.
+     * @dev Only the owner can set the token properties. Also calls setResource on the handler.
+     * @param _token The address of the token.
+     * @param _isBurnable Boolean indicating if the token is burnable.
+     * @param _isWhitelisted Boolean indicating if the token is whitelisted.
+     * @param _pair The paired token address.
+     */
     function setToken(address _token, bool _isBurnable, bool _isWhitelisted, address _pair) external onlyOwner {
         IHandler depositHandler = IHandler(erc20Handler);
 
@@ -115,5 +195,9 @@ contract Bridge is Ownable {
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
     }
 
+    /**
+     * @notice Fallback function to receive Ether.
+     * @dev Allows the contract to receive Ether.
+     */
     receive() external payable {}
 }

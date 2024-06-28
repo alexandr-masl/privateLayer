@@ -1,1 +1,19 @@
-node_modules
+# Ignore node_modules folder
+node_modules/
+
+
+# Ignore folder
+build/
+artifacts/
+cache/
+scripts/
+test/
+
+Commands
+hardhat.config.js
+node-docker-compose-config
+PrivateLayerDeploymentData
+proof.json
+
+# Ignore .env file
+.env
