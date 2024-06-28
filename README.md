@@ -4,7 +4,7 @@
 
 The PrivateLayer project facilitates the seamless deployment of private (L3) blockchains, complete with a native bridge enabling connection to any EVM-compatible chain, customizable infrastructure and nodes. These L3 chains offer extensive flexibility, allowing the configuration of custom consensus mechanisms and node settings. Currently, PrivateLayer supports two network options for deployment: Orbit by Arbitrum and Avalanche Subnets by Avalanche. The project includes a native bridge for seamless token transfers between Chain A (public network) and Chain B (private network).The goal is to offer a secure, private, and isolated environment for executing transactions and managing assets, ensuring privacy and security through multiple validation and verification layers, using the power and security of the public blockchains but isolated from public.
 
-## A very basic diagram illustrating the bridging process steps and components involved when moving from a public chain to a private chain. When bridging from a private chain to a public chain, the reverse logic is applied.
+#### A very basic diagram illustrating the bridging process steps and components involved when moving from a public chain to a private chain. When bridging from a private chain to a public chain, the reverse logic is applied.
 ![PrivateLayer](./bridge.png)
 
 
