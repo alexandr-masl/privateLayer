@@ -1,0 +1,40 @@
+### PrivateLayer protocol
+
+
+### Project Description: PrivateLayer Blockchain with Native Bridge
+
+The PrivateLayer project is designed to create a private blockchain network on top of established networks such as Arbitrum or Avalanche Subnet. This private blockchain, referred to as Orbit Network by Arbitrum or as Subnet by Avalanche, facilitates the anonymous transfer of stablecoins and other tokens. The network includes a native bridge for seamless token transfers between Chain A (public network) and Chain B (private network).The goal is to offer a secure, private, and isolated environment for executing transactions and managing assets, ensuring privacy and security through multiple validation and verification layers, using the power and security of the public blockchains but isolated from public.
+
+#### Key Features:
+
+1. **Dual-Chain Architecture**:
+   - **Chain A**: Public network (e.g., Arbitrum or Avalanche).
+   - **Chain B**: Private network (Orbit Network or Avalanche Subnet).
+   -> Tokens are deposited on Chain A and minted on Chain B after validation.
+   <- Tokens are burned on Chain B and released on Chain A after validation.
+
+2. **Token Bridge Mechanism**:
+   - **Deposit Process**: Tokens are locked on the public network (Chain A). The contract on Chain A emits an event about the deposit. Oracle nodes observe this event, create a Merkle root, and submit this deposit transaction to the deposit storage contract on Chain B.
+   - **Storage and Notification**: The storage contract on Chain B emits the `DepositHeaderSubmitted` event, indicating that a new deposit has been stored.
+   - **Validation and Minting**: Validators see the `DepositHeaderSubmitted` event, retrieve the transaction data from Chain A, generate proof, and call the bridge on Chain B with the data from the transaction on Chain A. The bridge on Chain B validates this transaction proof and mints the tokens if all validations are successful.
+
+3. **Security and Privacy**:
+   - **Oracle Nodes**: Monitor deposits and generate Merkle proofs to ensure data integrity and authenticity.
+   - **Validator Nodes**: Validate transactions and proofs across both chains, ensuring secure and accurate token minting and burning.
+   - **Merkle Proofs**: Used to verify transaction data, enhancing security by ensuring that all data is correctly validated before minting or burning tokens.
+
+4. **Smart Contracts**:
+   - **Bridge Contract**: Manages deposits, withdrawals, and token transfers between chains.
+   - **OracleDepositStorage**: Stores Oracle submissions and manages Merkle proofs.
+   - **ERC20Handler**: Handles token operations, including deposits, withdrawals, and resource management.
+
+5. **Decentralized Validation**:
+   - Validators on both chains work independently to verify transactions, ensuring decentralization and reducing the risk of single points of failure.
+   - The threshold for validation (77%) ensures a high level of consensus before any transaction is processed.
+
+6. **Technical Stack**:
+   - **Solidity**: Smart contract development.
+   - **OpenZeppelin**: Security and standard libraries.
+   - **Hardhat**: Development environment and deployment.
+   - **Ethers.js**: Interaction with Ethereum nodes.
+   - **MerkleTree.js**: Generation and verification of Merkle proofs.

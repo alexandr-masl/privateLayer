@@ -6,7 +6,7 @@ const wETH_address = '0xFC00000000000000000000000000000000000006';
 describe("Token Swap", function () {
     let wallet, contract, provider, amountIn, token0, token1, deployer, wETH;
 
-    const localNet_Acc_1_Key = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+    const localNet_Acc_1_Key = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
     const contractAddress = "0x39cd4db6460d8B5961F73E997E86DdbB7Ca4D5F6"; // Your contract address
     const fraxSwapRouterAddress = "0xYourFraxSwapRouterAddress"; // The address of the Frax Swap Router
 
@@ -23,7 +23,7 @@ describe("Token Swap", function () {
         wallet = new ethers.Wallet(localNet_Acc_1_Key, provider);
         contract = new ethers.Contract(contractAddress, abi, wallet);
 
-        amountIn = ethers.parseUnits("1.0", 18); // Amount to swap (e.g., 1.0 token with 18 decimals)
+        amountIn = ethers.parseUnits("0.1", 18); // Amount to swap (e.g., 1.0 token with 18 decimals)
         token0 = "0xFC00000000000000000000000000000000000006"; // Address of the token you are swapping from
         token1 = "0xFc00000000000000000000000000000000000001"; // Address of the token you are swapping to
 
@@ -36,6 +36,9 @@ describe("Token Swap", function () {
     });
 
     it("should approve wETH for deposit to Bridge", async function () {
+
+        console.log(':::::::::::::: SWAPPING FOR:', wallet.address);
+
         const amountToSwap = ethers.parseUnits('3', 18);
 
         const approveTx = await wETH.connect(wallet).approve(contractAddress, amountToSwap);

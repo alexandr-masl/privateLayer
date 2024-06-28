@@ -1,0 +1,20 @@
+
+Deploying contracts with the account: 0x01Ae8d6d0F137CF946e354eA707B698E8CaE6485
+:::::::: OracleDepositStorage contract deployed to: 0x9f021C97D8Afe5757172f34fD522a4A88de80e97
+:::::::: Oracle 1 address: 0x9Da201f324C4ce22fAe97310CFd08Bd650B17996
+:::::::: Oracle has been set in OracleDepositStorage
+:::::::: Bridge contract deployed to: 0x802fEC80ee397F15FE7E409d1F1d70B4B6e3241c
+:::::::: ERC20Handler contract deployed to: 0x78cf00AEadbCB04300AE24910e5b67D4fc6cCD02
+:::::::: Handler address at bridge: 0x78cf00AEadbCB04300AE24910e5b67D4fc6cCD02
+:::::::: Validator 1 address: 0x9Da201f324C4ce22fAe97310CFd08Bd650B17996
+:::::::: Validator has been set in the Bridge
+
+Deploying contracts with the account: 0x01Ae8d6d0F137CF946e354eA707B698E8CaE6485
+:::::::: PRIVATE-WETH Token contract deployed to: 0xFE90951bD9Ae68d27e9BD1224051A3e4A2b8a651
+:::::::: PRIVATE-FRAX Token contract deployed to: 0x48CE9CF8F9091ccefA3C27191777728107FD0571
+:::::::: WETH TOKEN Handler has been set
+:::::::: FRAX TOKEN Handler has been set
+
+Deploying contracts with the account: 0x01Ae8d6d0F137CF946e354eA707B698E8CaE6485
+:::::::: PRIVATE wETH token set in ERC20Handler
+:::::::: PRIVATE FRAX token set in ERC20Handler

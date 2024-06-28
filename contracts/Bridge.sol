@@ -73,6 +73,7 @@ contract Bridge is Ownable {
         require(generatedLeaf == _leaf, "Leaf does not match");
 
         address _tokenToReceive = tokenToReceive[_token];
+
         require((_tokenToReceive != address(0)), "Unknown Token");
 
         receiveSubmissions[_txHash]++;
@@ -80,7 +81,7 @@ contract Bridge is Ownable {
 
         if (receiveSubmissions[_txHash] >= threshold) { 
             processedTransactions[_txHash] = true;
-            processReceiveTokens(_token, _recipient, _amount);
+            processReceiveTokens(_tokenToReceive, _recipient, _amount);
         }
     }
 
@@ -110,7 +111,7 @@ contract Bridge is Ownable {
 
         // TODO: move it to the Handler
         tokenToReceive[_pair] = _token;
-
+        
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
     }
 

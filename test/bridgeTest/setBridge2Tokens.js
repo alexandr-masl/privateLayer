@@ -12,7 +12,7 @@ describe("Token Contract Deployment and Interaction", function () {
         [deployer] = await ethers.getSigners();
         console.log(`Deploying contracts with the account: ${deployer.address}`);
 
-        bridge = new ethers.Contract(Bridge.network1, JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi, deployer);
+        bridge = new ethers.Contract(Bridge.network2, JSON.parse(fs.readFileSync('./artifacts/contracts/Bridge.sol/Bridge.json')).abi, deployer);
     });
 
     it("should set PRIVATE wETH in ERC20Handler", async function () {

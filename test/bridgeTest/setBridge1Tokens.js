@@ -17,6 +17,8 @@ describe("Token Contract Deployment and Interaction", function () {
 
     it("should set wETH in ERC20Handler", async function () {
 
+        console.log(colors.white(`:::::::: WETH Token 1: ${WETH.network1}`));
+        console.log(colors.white(`:::::::: WETH Token 2: ${WETH.network2}`));
         const setToken = await bridge.connect(deployer).setToken(WETH.network1, false, true, WETH.network2);
         const setTokenTxReceipt = await setToken.wait();
         console.log(colors.white(`:::::::: setTokenTxReceipt:`));
@@ -25,6 +27,8 @@ describe("Token Contract Deployment and Interaction", function () {
 
     it("should set FRAX in ERC20Handler", async function () {
 
+        console.log(colors.white(`:::::::: FRAX Token 1: ${FRAX.network1}`));
+        console.log(colors.white(`:::::::: FRAX Token 2: ${FRAX.network2}`));
         const setToken = await bridge.connect(deployer).setToken(FRAX.network1, false, true, FRAX.network2);
         const setTokenTxReceipt = await setToken.wait();
         console.log(colors.white(`:::::::: setTokenTxReceipt:`));
