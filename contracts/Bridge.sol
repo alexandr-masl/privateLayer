@@ -91,7 +91,6 @@ contract Bridge is Ownable {
         address depositor,
         uint256 amount
     ) external payable {
-        require(msg.value > 0, "value of validator reward is too low");
 
         IHandler depositHandler = IHandler(erc20Handler);
         depositHandler.deposit(tokenAddress, msg.sender, amount);
