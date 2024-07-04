@@ -4,7 +4,7 @@ pragma solidity 0.8.20;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import { IHandler } from "./interfaces/IHandler.sol";
 import { OracleDepositStorage } from "./OracleDepositStorage.sol";
-import "hardhat/console.sol";
+
 
 contract Bridge is Ownable {
 
@@ -135,7 +135,7 @@ contract Bridge is Ownable {
 
         if (receiveSubmissions[_txHash] >= threshold) { 
             processedTransactions[_txHash] = true;
-            processReceiveTokens(_tokenToReceive, _recipient, _amount);
+            _processReceiveTokens(_tokenToReceive, _recipient, _amount);
         }
     }
 
@@ -146,7 +146,7 @@ contract Bridge is Ownable {
      * @param _recipient The address of the recipient.
      * @param _amount The amount of tokens to process.
      */
-    function processReceiveTokens(
+    function _processReceiveTokens(
         address _token,
         address _recipient,
         uint256 _amount
