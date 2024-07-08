@@ -80,6 +80,16 @@ contract Bridge is Ownable {
     );
 
     /**
+     * @notice Event emitted when gas is Refueled.
+     * @param depositor The address of the depositor.
+     * @param amount The amount of tokens received.
+     */
+    event Refueled(
+        address depositor,
+        uint amount
+    );
+
+    /**
      * @notice Deposits tokens to the contract.
      * @dev Requires a non-zero validator reward. Uses the handler to deposit tokens.
      * @param tokenAddress The address of the token to deposit.
@@ -140,25 +150,6 @@ contract Bridge is Ownable {
     }
 
     /**
-     * @notice Processes the received tokens.
-     * @dev Calls the withdraw function on the handler to process the token reception.
-     * @param _token The address of the token to process.
-     * @param _recipient The address of the recipient.
-     * @param _amount The amount of tokens to process.
-     */
-    function _processReceiveTokens(
-        address _token,
-        address _recipient,
-        uint256 _amount
-    ) internal {
-        
-        IHandler depositHandler = IHandler(erc20Handler);
-        (address returnedTokenAddress, address returnedRecipient, uint256 returnedAmount) = depositHandler.withdraw(_amount, _token, _recipient);
-
-        emit Received(returnedTokenAddress, returnedRecipient, returnedAmount);
-    }
-
-    /**
      * @notice Sets the handler contract address.
      * @dev Only the owner can set the handler address.
      * @param _handler The address of the handler contract.
@@ -192,6 +183,34 @@ contract Bridge is Ownable {
         tokenToReceive[_pair] = _token;
         
         depositHandler.setResource(_token, _isBurnable, _isWhitelisted);
+    }
+
+    /**
+     * @notice Allows users to refuel gas by sending native coins.
+     * @dev Requires a non-zero value to be sent. Emits a Refueled event with the depositor's address and amount sent.
+     */
+    function gasRefuel() external payable {
+        require(msg.value > 0, "value is too low");
+        emit Refueled(msg.sender, msg.value);
+    }
+
+    /**
+     * @notice Processes the received tokens.
+     * @dev Calls the withdraw function on the handler to process the token reception.
+     * @param _token The address of the token to process.
+     * @param _recipient The address of the recipient.
+     * @param _amount The amount of tokens to process.
+     */
+    function _processReceiveTokens(
+        address _token,
+        address _recipient,
+        uint256 _amount
+    ) internal {
+        
+        IHandler depositHandler = IHandler(erc20Handler);
+        (address returnedTokenAddress, address returnedRecipient, uint256 returnedAmount) = depositHandler.withdraw(_amount, _token, _recipient);
+
+        emit Received(returnedTokenAddress, returnedRecipient, returnedAmount);
     }
 
     /**
